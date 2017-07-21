@@ -1,0 +1,9 @@
+machine:
+  services:
+    - docker
+dependencies:
+  override:
+    - docker build -t vbehar/nginx-openshift .
+test:
+  override:
+    - docker run -it vbehar/nginx-openshift nginx -V

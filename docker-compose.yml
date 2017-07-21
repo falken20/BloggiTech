@@ -1,0 +1,28 @@
+pod:
+  image: openshift/origin-pod
+  container_name: pod
+  user: "100000"
+  ports:
+    - "8080:8080"
+
+proxy:
+  #image: vbehar/nginx-openshift
+  build: .
+  user: "100000"
+  environment:
+    NGINX_PROXY_TARGET: http://localhost:9000
+    NGINX_PROXY_HEADER_1: "X-Custom-Header \"My value\""
+    NGINX_HEADER_1: "X-Proxy Nginx"
+    NGINX_REWRITE_PERMANENT_1: "/old /"
+    NGINX_REWRITE_TEMPORARY_1: "/tmp /"
+  net: "container:pod"
+
+backend:
+  #image: vbehar/nginx-openshift
+  build: .
+  user: "100000"
+  environment:
+    NGINX_LISTEN_PORT: 9000
+    NGINX_LOG_ACCESS: /dev/stdout
+    NGINX_LOG_ERROR: /dev/stderr
+  net: "container:pod"

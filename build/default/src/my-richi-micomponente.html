@@ -1,0 +1,67 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<!-- Añadimos compoenente que viene para en linea inferior para sacar array (    <template is="dom-repeat" items=""></template>)-->
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+
+<dom-module id="my-richi-micomponente">
+  <template>
+    <script src="consumepostsmongo.js" charset="utf-8"></script>
+    <style>
+      :host {  /* Para referenciar el estilo de mi componente */
+        display: inline-block;
+        background-color: pink; <!-- Indico color de fondo para diferenciar area del compoennte -->
+      }
+    </style>
+    <div><span>Mi primer componente Polymer !!!!!!</span></div>
+    <div><span>[[saludo]]</span></div>
+    <div><span>Contador: [[contador]]</span></div>
+    -------&gt;&gt;&gt;&gt; Cargo el contenido del array....
+    <template is="dom-repeat" items="[[listado]]">
+      <div>
+        [[item.titulo]]
+        [[item.texto]]<p>
+      </p></div>
+    </template>
+
+
+  </template>
+    <script>
+      /* Lo siguiente es porque heredamos del Polymer element. Se podria hacer como en my-view poniendo class...
+      class MyView1 extends Polymer.Element {
+        static get is() { return 'my-view1'; }
+      }
+      */
+      Polymer({
+        is: 'my-richi-micomponente',
+        properties: {
+          saludo: String,
+          contador: {  //Se puede hacer como la propiedad saludo en una línea o así
+            type: Number,
+            value: "Valor por deffecto"
+          },
+          listado: {
+            type: Array,
+            notify: true, //Automáticamente refresca cuando cambia algo...(se supone)
+            value: [
+              {"titulo": "Título 1", "texto": "Texto 1"},
+              {"titulo": "Título 2", "texto": "Texto 2"},
+              {"titulo": "Título 3", "texto": "Texto 3"}
+            ]
+          }
+        },
+        <!-- Ahora le digo que eventos quiero escuchar con la directiva listeners-->
+        listeners: {
+          'tap': 'incrementar'  <!-- tap es evento conocido en html, js, etc... cuando se pulsa con dedo o se hace click, indico que cuando se produzca llame a metodo incrementar -->
+        },
+        <!-- Incluyo los métodos -->
+        incrementar: function() {
+          this.contador++;
+          this.listado.push(this.contador);
+        },
+        obtenerPosts: function() {
+          this.contador++;
+        }
+      })
+    </script>
+</dom-module>
