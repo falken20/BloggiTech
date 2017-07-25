@@ -1,37 +1,15 @@
-FROM openshift/origin-base
+FROM node:boron
 
-MAINTAINER Falken
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-ENV CONFD_VERSION 0.10.0
-RUN echo "Installing Confd ${CONFD_VERSION} ..." \
- && curl -jksSL "https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64" > /usr/local/bin/confd \
- && chmod a+x /usr/local/bin/confd
+COPY package.json /usr/src/app
+RUN npm install
 
-RUN echo "Installing Nginx ..." \
- && yum install -y nginx \
- && yum clean all \
- && mkdir -p /var/lib/nginx && chmod -R 777 /var/lib/nginx \
- && mkdir -p /var/log/nginx && chmod -R 777 /var/log/nginx
+COPY . /usr/src/app
+COPY ./src /usr/src/app
+COPY ./bower_components /usr/src/app
+COPY ./images /usr/src/app
 
-RUN chmod 777 /etc/nginx \
- && chmod 666 /etc/nginx/nginx.conf \
- && mkdir -p /etc/nginx/default.d && chmod -R 777 /etc/nginx/default.d \
- && mkdir -p /etc/nginx/conf.d && chmod -R 777 /etc/nginx/conf.d
-
-COPY usr/local/bin/ /usr/local/bin/
-RUN chmod a+x /usr/local/bin/*
-
-#Añadidos por Falken
-COPY build/default/. /usr/share/nginx/html/
-
-CMD ["start-nginx.sh"]
-
-COPY etc/confd/ /etc/confd/
-
-VOLUME ["/etc/nginx/default.d", "/etc/nginx/conf.d", "/var/log/nginx"]
-
-# Default values
-ENV NGINX_LISTEN_PORT=8081 \
-    NGINX_LOG_ACCESS=/var/log/nginx/access.log \
-    NGINX_LOG_ERROR=/var/log/nginx/error.log
 EXPOSE 8081
+CMD [ "npm", "start" ]
