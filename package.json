@@ -10,7 +10,7 @@
     "eslint-plugin-html": "^2.0.0"
   },
   "scripts": {
-    "start": "polymer serve",
+    "start": "npm start.js",
     "lint": "npm run lint:javascript",
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "polymer test",
