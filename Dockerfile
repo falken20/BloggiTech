@@ -4,7 +4,12 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY package.json /usr/src/app
-RUN npm install
+
+# Instalar dependencias
+#RUN npm install
+RUN npm install -g \
+   polymer-cli \
+   bower
 
 COPY . /usr/src/app
 COPY ./src /usr/src/app

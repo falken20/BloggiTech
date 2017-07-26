@@ -1,2 +1,3 @@
 node_modules/
-Dockerfile.old
+bower_components/
+build/

@@ -1,7 +1,0 @@
-[template]
-src = "etc/nginx/nginx.conf.tmpl"
-dest = "/etc/nginx/nginx.conf"
-keys = [
-    "/nginx/log/access",
-    "/nginx/log/error"
-]
