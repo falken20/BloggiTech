@@ -32,4 +32,4 @@ app.get('/admin/', function(req, res) { //req lo que me llega y res lo que devue
 */
 
 app.listen(PORT);
-console.log('Express funcionando en el puerto ' + PORT);
+console.log('BloggiTech funcionando en el puerto ' + PORT);
