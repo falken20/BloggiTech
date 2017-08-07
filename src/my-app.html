@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
 
-<link rel="lazy-import" href="my-view1.html">
+<link rel="lazy-import" href="my-new-user.html">
 <link rel="lazy-import" href="my-view2.html">
 <link rel="lazy-import" href="my-view3.html">
 <link rel="lazy-import" href="my-view404.html">
@@ -44,7 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       app-header {
-        color: #fff;
+        color: #4285f4;
         background-color: var(--app-primary-color);
       }
 
@@ -81,14 +81,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
       <app-drawer id="drawer" slot="drawer">
-        <app-toolbar>Menu</app-toolbar>
+        <app-toolbar>BloggiTech Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="view1">View One</a>
+          <a name="new-user" href="new-user">New user PostgreSQL</a>
           <a name="view2" href="view2">View Two</a>
           <a name="view3" href="view3">View Three</a>
           <!-- ROD: Sin my ya que más abajo hay un metodo que lo forma añadiendo el my (_pageChanged) -->
-          <a name="richi-micomponente" href="richi-micomponente">Ejemplo Richi</a>  <!-- ROD: Son referencias a mi parte, más abajo aparece -->
-          <a name="componentemongodb" href="componentemongodb">Conexión MongoDB</a>
+          <a name="richi-micomponente" href="richi-micomponente">Ejemplo</a>
+          <a name="componentemongodb" href="componentemongodb">Acceso mongoDB</a>
         </iron-selector>
       </app-drawer>
 
@@ -98,7 +98,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header slot="header" condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>Richi Polymer App</div>
+            <div main-title>BloggiTech</div>
           </app-toolbar>
         </app-header>
 
@@ -107,7 +107,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             attr-for-selected="name"
             fallback-selection="view404"
             role="main">
-          <my-view1 name="view1"></my-view1>
+          <my-new-user name="new-user"></my-new-user>
           <my-view2 name="view2"></my-view2>
           <my-view3 name="view3"></my-view3>
           <my-view404 name="view404"></my-view404>
