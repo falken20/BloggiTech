@@ -23,7 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="my-icons.html">
 
 <link rel="lazy-import" href="my-new-user.html">
-<link rel="lazy-import" href="my-view2.html">
+<link rel="lazy-import" href="my-remove-user.html">
 <link rel="lazy-import" href="my-view3.html">
 <link rel="lazy-import" href="my-view404.html">
 <link rel="lazy-import" href="my-richi-micomponente.html">  <!-- Referencia a mi componente -->
@@ -44,7 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       app-header {
-        color: #4285f4;
+        color: #ffffff;
         background-color: var(--app-primary-color);
       }
 
@@ -83,8 +83,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer id="drawer" slot="drawer">
         <app-toolbar>BloggiTech Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="new-user" href="new-user">New user PostgreSQL</a>
-          <a name="view2" href="view2">View Two</a>
+          <a name="new-user" href="new-user">New user</a>
+          <a name="remove-user" href="remove-user">Remove user</a>
           <a name="view3" href="view3">View Three</a>
           <!-- ROD: Sin my ya que más abajo hay un metodo que lo forma añadiendo el my (_pageChanged) -->
           <a name="richi-micomponente" href="richi-micomponente">Ejemplo</a>
@@ -108,7 +108,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             fallback-selection="view404"
             role="main">
           <my-new-user name="new-user"></my-new-user>
-          <my-view2 name="view2"></my-view2>
+          <my-remove-user name="remove-user"></my-remove-user>
           <my-view3 name="view3"></my-view3>
           <my-view404 name="view404"></my-view404>
           <my-richi-micomponente name="richi-micomponente" contador="1" saludo="Hola Tron!!!"></my-richi-micomponente>
