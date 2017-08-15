@@ -87,18 +87,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
+<!-- ROD: Menú lateral
       <app-drawer id="drawer" slot="drawer">
         <app-toolbar>BloggiTech Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="new-user" href="new-user">New user</a>
           <a name="remove-user" href="remove-user">Remove user</a>
           <a name="view3" href="view3">View Three</a>
-          <!-- ROD: Sin my ya que más abajo hay un metodo que lo forma añadiendo el my (_pageChanged) -->
           <a name="richi-micomponente" href="richi-micomponente">Ejemplo</a>
           <a name="componentemongodb" href="componentemongodb">Acceso mongoDB</a>
           <a name="index-blog" href="index-blog">Blog Index</a>
-        </iron-selector>
+        </iron-selector>       
       </app-drawer>
+-->
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
@@ -127,8 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             <li><a href="index-blog">Home</a></li>
                             <li><a href="new-user">Users</a></li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" 
-                                   aria-expanded="false">Categorias <span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categorias <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Sexo</a></li>
                                     <li><a href="#">Drogas</a></li>
