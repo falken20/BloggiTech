@@ -1,0 +1,71 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<!-- Añadimos compoenente que viene para en linea inferior para sacar array (    <template is="dom-repeat" items="...)-->
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+
+<dom-module id="my-index-blog">
+  <template>
+    <style>
+      :host {  /* Para referenciar el estilo de mi componente */
+        display: inline-block;
+        background-color: white; <!-- Indico color de fondo para diferenciar area del compoennte -->
+      }
+    </style>
+
+    <div><button type="button" name="btnObtenerPosts" on-click="obtenerPosts">Obtener posts MongoDB</button></div>
+    <div class='container'>
+      <div class="row">
+        <template is="dom-repeat" items="[[posts]]">
+                <div class="col-sm-6 col-md-6">
+                    <div class="thumbnail">
+                        <img src="http://lorempixel.com/g/600/200/transport" alt="...">
+                        <div class="caption">
+                            <h3>[[item.titulo]]</h3>
+                            <p>in Category</p>
+                            <p>[[item.texto]]</p>
+                            <p><a href="#" class="btn btn-primary" role="button">Ver</a></p>
+                        </div>
+                    </div>
+                </div>
+        </template>
+      </div>
+    </div>
+
+  </template>
+    <script>
+      /* Lo siguiente es porque heredamos del Polymer element. Se podria hacer como en my-view poniendo class...
+      class MyView1 extends Polymer.Element {
+        static get is() { return 'my-view1'; }
+      }
+      */
+      Polymer({
+        is: 'my-index-blog',
+        properties: {
+          url: {
+            type: String,
+            value: "https://api.mlab.com/api/1/databases/dbbootcamp/collections/posts"
+          },
+          apiKey: {
+            type: String,
+            value: "?apiKey=CQjEP7tpIq0_e_u0XbMU2o1Xgt8fgB74"
+          },
+          posts: {
+            type: Array,
+            notify: true //Automáticamente refresca cuando cambia algo...(se supone)
+          }
+        },
+        listeners: {
+        },
+        obtenerPosts: function() {
+          var peticion = new XMLHttpRequest();
+          peticion.open("GET", this.url + this.apiKey, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send();
+          this.posts = JSON.parse(peticion.responseText);
+          sessionStorage["posts"] = peticion.responseText;
+          console.log("ROD: " + peticion.responseText);
+        }
+      })
+    </script>
+</dom-module>
