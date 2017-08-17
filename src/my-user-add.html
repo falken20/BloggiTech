@@ -11,21 +11,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 
-<dom-module id="my-remove-user">
+<dom-module id="my-user-add">
   <template>
     <style>
       :host {  /* Para referenciar el estilo de mi componente */
         display: inline-block;
-        background-color: red; <!-- Indico color de fondo para diferenciar area del compoennte -->
+        background-color: green; <!-- Indico color de fondo para diferenciar area del compoennte -->
       }
     </style>
 
     <!-- Metemos parte para interactuar con MongoDB -->
-    <div><span>Incert the ID for the user to remove:</span></div>
+    <div><span>Fill the new user info:</span></div>
     <div>
-      ID:
-      <input type="text" name="idInput"/>
-      <p>
       Name:
       <input type="text" name="nameInput"/>
       <p>
@@ -36,14 +33,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <input type="text" name="passwordInput"/>
     </div>
 
-    <div><button type="button" name="btnRemoveUser" on-click="removeUser">Delete User for PostgreSQL</button></div>
+    <div><button type="button" name="btnNewUser" on-click="postNewUser">Añadir usuario PostgreSQL</button></div>
     <p>
   </template>
 
   </template>
     <script>
       Polymer({
-        is: 'my-remove-user',
+        is: 'my-user-add',
         properties: {
           url: {
             type: String,
@@ -55,19 +52,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         listeners: {
         },
-        removeUser: function() {
-          var id = document.getElementsByName("idInput")[0].value;
+        postNewUser: function() {
           var name = document.getElementsByName("nameInput")[0].value;
           var email = document.getElementsByName("emailInput")[0].value;
           var password = document.getElementsByName("passwordInput")[0].value;
-          console.log("Removing user ID: " + id + ", Name: " + name + ", Email: " + email + ", Password: " + password);
+          console.log("Adding user -> Name: " + name + ", Email: " + email + ", Password: " + password);
           var peticion = new XMLHttpRequest();
-          var urlDelete = this.url + "/" + id;
-          peticion.open("DELETE", urlDelete, true);
+          peticion.open("POST", this.url, true);
           peticion.setRequestHeader("Content-Type", "application/json");
-          peticion.send();
-          //peticion.send('{"nombre":"' + name + '", "email": "' + email + '", "password":"' + password + '"}');
-          console.log("User " + id + " removed");
+          peticion.send('{"nombre":"' + name + '", "email": "' + email + '", "password":"' + password + '"}');
+          console.log("User " + name + " added");
         }
       })
     </script>

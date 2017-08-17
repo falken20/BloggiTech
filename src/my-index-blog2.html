@@ -4,7 +4,7 @@
 <!-- Añadimos compoenente que viene para en linea inferior para sacar array (    <template is="dom-repeat" items="...)-->
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 
-<dom-module id="my-index-blog">
+<dom-module id="my-index-blog2">
   <template>
     <style>
       :host {  /* Para referenciar el estilo de mi componente */
@@ -16,21 +16,32 @@
     </style>
 
     <div align="center"><button type="button" name="btnObtenerPosts" on-click="obtenerPosts">Obtener posts MongoDB</button></div>
-    <div class='container'>
-      <div class="row">
+    <div class='container carousel'>
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner text-center" role="listbox">
         <template is="dom-repeat" items="[[posts]]">
-                <div class="col-sm-4 col-md-4">
-                    <div class="thumbnail">
-                        <img src="http://lorempixel.com/g/600/200/transport" alt="...">
-                        <div class="caption">
-                            <h3>[[item.titulo]]</h3>
-                            <p>in Category</p>
-                            <p>[[item.texto]]</p>
-                            <p><a href="#" class="btn btn-primary" role="button">Ver</a></p>
-                        </div>
-                    </div>
-                </div>
+          <div class="item">
+              <div class="col-lg-8 pull-right">
+                  <img src="http://lorempixel.com/g/750/350/transport">
+              </div>
+              <div class="col-lg-4">                            
+                  <h2>[[item.titulo]]<br>
+                      <small>Autor....</small></h2>
+                  <p>[[item.texto]]</p>
+                <a class='btn btn-info pull-right'
+                     href="/article/show/sed-vel-lectus/9">
+                      <i class="fa fa-long-arrow-right"> </i></a>  
+              </div>
+          </div>
         </template>
+        </div>
       </div>
     </div>
 
@@ -42,7 +53,7 @@
       }
       */
       Polymer({
-        is: 'my-index-blog',
+        is: 'my-index-blog2',
         properties: {
           url: {
             type: String,
