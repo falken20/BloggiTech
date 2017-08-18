@@ -16,25 +16,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {  /* Para referenciar el estilo de mi componente */
         display: inline-block;
-        background-color: green; <!-- Indico color de fondo para diferenciar area del compoennte -->
+        background-color: white;
+        width: -moz-available;
+        align-items: center;
       }
     </style>
 
     <!-- Metemos parte para interactuar con MongoDB -->
-    <div><span>Fill the new user info:</span></div>
-    <div>
-      Name:
-      <input type="text" name="nameInput"/>
-      <p>
-      Email:
-      <input type="text" name="emailInput"/>
-      <p>
-      Password:
-      <input type="text" name="passwordInput"/>
-    </div>
-
-    <div><button type="button" name="btnNewUser" on-click="postNewUser">Añadir usuario PostgreSQL</button></div>
-    <p>
+    <div class="container">
+      <div class="login-container">
+                <div id="output"></div>
+                <div class="avatar"></div>
+                <div><span>Fill the new user info:</span></div>
+                <div class="form-box">
+                    <form action="" method="">
+                        Name: <input name="usernameInput" type="text" placeholder="username">
+                        eMail: <input name="emailInput" type="text" placeholder="email">
+                        Password: <input name="passwordInput" type="password" placeholder="password">
+                        <button class="btn btn-info btn-block login" type="button" name="btnAddNewUser" on-click="addNewUser">Register</button>
+                    </form>
+                </div>
+            </div>
   </template>
 
   </template>
@@ -52,16 +54,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         listeners: {
         },
-        postNewUser: function() {
-          var name = document.getElementsByName("nameInput")[0].value;
+        addNewUser: function() {
+          var username = document.getElementsByName("usernameInput")[0].value;
           var email = document.getElementsByName("emailInput")[0].value;
           var password = document.getElementsByName("passwordInput")[0].value;
-          console.log("Adding user -> Name: " + name + ", Email: " + email + ", Password: " + password);
+          console.log("Adding user -> Name: " + username + ", Email: " + email + ", Password: " + password);
           var peticion = new XMLHttpRequest();
           peticion.open("POST", this.url, true);
           peticion.setRequestHeader("Content-Type", "application/json");
-          peticion.send('{"nombre":"' + name + '", "email": "' + email + '", "password":"' + password + '"}');
-          console.log("User " + name + " added");
+          peticion.send('{"nombre":"' + username + '", "email": "' + email + '", "password":"' + password + '"}');
+          console.log("User " + username + " added");
         }
       })
     </script>

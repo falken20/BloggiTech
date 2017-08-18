@@ -29,6 +29,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="my-componentemongodb.html">
 <link rel="lazy-import" href="my-index-blog.html">
 <link rel="lazy-import" href="my-index-blog2.html">
+<link rel="lazy-import" href="my-post-add.html">
 
 <link rel="lazy-import" href="my-view3.html">
 <link rel="lazy-import" href="my-view404.html">
@@ -40,6 +41,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 <link href="src/blog-template.css" rel="stylesheet" type="text/css"/>
 <link href="src/login.css" rel="stylesheet" type="text/css"/>
+<link href="src/sticky.css" rel="stylesheet" type="text/css"/>
+<link href="src/post.css" rel="stylesheet" type="text/css"/>
 
 <dom-module id="my-app">
   <template>
@@ -131,14 +134,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">                                
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="index-blog">Home</a></li>
-                            <li><a href="index-blog2">Home Hiper</a></li>
+                            <li><a href="index-blog2">Prueba</a></li>
                             <li><a href="user-login">Login</a></li>
+                            <li><a href="post-add">Posts</a></li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categorias <span class="caret"></span></a>
+                                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">-->
+                                Posts<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Sexo</a></li>
-                                    <li><a href="#">Drogas</a></li>
-                                    <li><a href="#">Rockin'Roll</a></li>                                
+                                    <li><a href="#">Add post</a></li>
+                                    <li><a href="#">Remove post</a></li>
+                                    <li><a href="#">Edit post</a></li>                                
                                 </ul>
                             </li>
                         </ul>
@@ -153,8 +158,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             attr-for-selected="name"
             fallback-selection="view404"
             role="main">
-          <my-user-add name="new-user"></my-user-add>
-          <my-user-remove name="remove-user"></my-user-remove>
+          <my-user-add name="user-add"></my-user-add>
+          <my-user-remove name="user-remove"></my-user-remove>
           <my-user-login name="user-login"></my-user-login>
           <my-view3 name="view3"></my-view3>
           <my-view404 name="view404"></my-view404>
@@ -162,6 +167,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <my-componentemongodb name="componentemongodb"></my-componentemongodb>
           <my-index-blog name="index-blog"></my-index-blog>
           <my-index-blog2 name="index-blog2"></my-index-blog2>
+          <my-post-add name="post-add"></my-post-add>
         </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
