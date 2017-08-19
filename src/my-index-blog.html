@@ -17,8 +17,7 @@
       }
     </style>
 
-    <div align="center"><button type="button" name="btnObtenerPosts" on-click="obtenerPosts">Obtener posts MongoDB</button></div>
-    <div class='container'>
+    <div class='container-fluid'>
       <div class="row">
         <template is="dom-repeat" items="[[posts]]">
                 <div class="col-sm-4 col-md-4">
@@ -60,6 +59,15 @@
           }
         },
         listeners: {
+        },
+        ready: function() {
+          var peticion = new XMLHttpRequest();
+          peticion.open("GET", this.url + this.apiKey, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send();
+          this.posts = JSON.parse(peticion.responseText);
+          sessionStorage["posts"] = peticion.responseText;
+          console.log("ROD: " + peticion.responseText);
         },
         obtenerPosts: function() {
           var peticion = new XMLHttpRequest();
