@@ -11,7 +11,7 @@ const app = express(); //Creo el servidor
 
 app.use(express.static(__dirname)); //Para evitar usar paths relativos
 
-//Cuando llame a http://localhost:8080/ lo que tiene que ejecutar
+//Cuando llame a http://localhost:8081/ lo que tiene que ejecutar
 app.get('/', function(req, res) { //req lo que me llega y res lo que devuelvo
   //res.send('Welcome to the real world!!!!! \n');
   res.sendFile(path.join(__dirname + '/index.html')); //__dirname e s variable interna de node.js y es la raiz del proyecto
