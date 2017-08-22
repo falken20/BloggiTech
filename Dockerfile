@@ -6,7 +6,6 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app
 
 # Instalar dependencias
-#RUN npm install
 RUN npm install -g \
    polymer-cli \
    bower
