@@ -25,23 +25,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <div class="col-sm-4 col-md-4">
+    <div class="col-sm-6 col-md-6">
       <div class="sticky">
           <h1>Welcome to BloggiTech!</h1>
           <p><small>Only be Tech</small></p>
       </div>
+      <span id="mensaje">...</span>
     </div>
-    <div class="col-sm-4 col-md-4">
+    <div class="col-sm-6 col-md-6">
         <div class="login-container">
                   <div id="output"></div>
-                  <div class="avatar"><img src="https://cdn1.iconfinder.com/data/icons/big-rocket/80/BigRocket-1-01-512.png" width="100px" height="100px"></div>
+                  <div class="avatar"><img src="https://cdn2.iconfinder.com/data/icons/blue-rounded-set/154/avatar-login-round-profile-512.png" width="95px" height="95px"></div>
                   <div class="form-box">
                       <form action="" method="">
                           <input name="usernameInput" type="text" placeholder="username">
                           <input name="passwordInput" type="password" placeholder="password">
                           <button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button>
                           <p><small>No account? <a href="user-add">Create one!</a></small></p>
-                          <span id="mensaje"></span>
                       </form>
                   </div>
         </div>              
@@ -55,30 +55,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         properties: {
           url: {
             type: String,
-            value: "http://postgrebc9688.cloudapp.net:3000/api/usuarios"
-          },
-          posts: {
-            type: Array,
+            value: "http://postgrebc9688.cloudapp.net:3000/api/login"
           }
         },
         listeners: {
         },
-        loginUser: function hacerLogin() {
-          var username = document.getElementById("usernameInput").value;
-          var password = document.getElementById("passwordInput").value;
-          console.log(username);
-          console.log(password);
+        loginUser: function() {
+          var username = document.getElementsByName("usernameInput")[0].value;
+          var password = document.getElementsByName("passwordInput")[0].value;
+          console.log("ROD: username:" + username);
+          console.log("ROD: password:" + password);
           var peticion = new XMLHttpRequest();
-          peticion.open("POST", URL, false);
+          peticion.open("POST", this.url, false);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
-          peticion.send('{"nombre":"' + username + '", "password": "' + password + '"}');
+          peticion.send('{"nombre":"' + username + '", "password": "' + password + '"}');       
+          console.log(peticion.responseText);
           var spanMensaje = document.getElementById("mensaje");
           var respuesta = JSON.parse(peticion.responseText);
           if (peticion.status=="200" && respuesta.data.count > 0)
           {
-              spanMensaje.innerText = "Login correcto";
-              sessionStorage.setItem("usuario", nombre);
+              this.$.mensaje.text = "Login OKKKKKK";
+              /* spanMensaje.innerText = "Login correcto"; */
+              sessionStorage.setItem("usuario", username);
           }
           else 
           {
