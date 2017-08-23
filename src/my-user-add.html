@@ -27,15 +27,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="login-container">
                 <div id="output"></div>
                 <div class="avatar"><img src="https://cdn2.iconfinder.com/data/icons/blue-rounded-set/154/avatar-login-round-profile-512.png" width="95px" height="95px"></div>
-                <div><span>Fill the new user info:</span></div>
+                <div><span></span></div>
                 <div class="form-box">
                     <form action="" method="">
-                        Name: <input name="usernameInput" type="text" placeholder="username">
-                        eMail: <input name="emailInput" type="text" placeholder="email">
-                        Password: <input name="passwordInput" type="password" placeholder="password">
+                        Name: <input name="usernameInput" type="text" placeholder="username" maxlength="20" size="100">
+                        eMail: <input name="emailInput" type="text" placeholder="email" maxlength="30" >
+                        Password: <input name="passwordInput" type="password" placeholder="password" maxlength="20">
                         <button class="btn btn-info btn-block login" type="button" name="btnAddNewUser" on-click="addNewUser">Register</button>
                     </form>
                 </div>
+                <div><span id="mensaje"></span></div>
             </div>
   </template>
 
@@ -47,9 +48,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           url: {
             type: String,
             value: "http://postgrebc9688.cloudapp.net:3000/api/usuarios"
-          },
-          posts: {
-            type: Array,
           }
         },
         listeners: {
@@ -58,12 +56,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var username = document.getElementsByName("usernameInput")[0].value;
           var email = document.getElementsByName("emailInput")[0].value;
           var password = document.getElementsByName("passwordInput")[0].value;
-          console.log("Adding user -> Name: " + username + ", Email: " + email + ", Password: " + password);
+          console.log("ROD: Adding user -> Name: " + username + ", Email: " + email + ", Password: " + password);
           var peticion = new XMLHttpRequest();
-          peticion.open("POST", this.url, true);
+          peticion.open("POST", this.url, false);
           peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
           peticion.send('{"nombre":"' + username + '", "email": "' + email + '", "password":"' + password + '"}');
-          console.log("User " + username + " added");
+          var spanMensaje = document.getElementById("mensaje");
+          var respuesta = JSON.parse(peticion.responseText);
+          if (peticion.status=="200")
+          {
+              console.log("ROD: User " + username + " added");
+              sessionStorage.setItem("usuario", username);
+              spanMensaje.innerText = "Usuario creado correctamente";
+          }
+          else 
+          {
+              spanMensaje.innerText = "No se pudo crear el usuario";
+          }
         }
       })
     </script>

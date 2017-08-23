@@ -22,13 +22,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
 
-<link rel="lazy-import" href="my-user-add.html">
-<link rel="lazy-import" href="my-user-remove.html">
-<link rel="lazy-import" href="my-user-login.html">
 <link rel="lazy-import" href="my-richi-micomponente.html">  <!-- Referencia a mi componente -->
 <link rel="lazy-import" href="my-componentemongodb.html">
+
 <link rel="lazy-import" href="my-index-blog.html">
 <link rel="lazy-import" href="my-index-blog2.html">
+<link rel="lazy-import" href="my-user-add.html">
+<link rel="lazy-import" href="my-user-login.html">
+<link rel="lazy-import" href="my-user-remove.html">
 <link rel="lazy-import" href="my-post-add.html">
 
 <link rel="lazy-import" href="my-view3.html">
@@ -43,6 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link href="src/login.css" rel="stylesheet" type="text/css"/>
 <link href="src/sticky.css" rel="stylesheet" type="text/css"/>
 <link href="src/post.css" rel="stylesheet" type="text/css"/>
+<link href="src/styles.css" rel="stylesheet" type="text/css"/>
 
 <dom-module id="my-app">
   <template>
@@ -138,7 +140,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             <li><a href="user-login">Login</a></li>
                             <li><a href="post-add">Posts</a></li>
                             <li class="dropdown">
-                                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">-->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 Posts<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Add post</a></li>
@@ -158,16 +160,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             attr-for-selected="name"
             fallback-selection="view404"
             role="main">
-          <my-user-add name="user-add"></my-user-add>
-          <my-user-remove name="user-remove"></my-user-remove>
-          <my-user-login name="user-login"></my-user-login>
-          <my-view3 name="view3"></my-view3>
-          <my-view404 name="view404"></my-view404>
           <my-richi-micomponente name="richi-micomponente" contador="1" saludo="Hola Tron!!!"></my-richi-micomponente>
           <my-componentemongodb name="componentemongodb"></my-componentemongodb>
+
           <my-index-blog name="index-blog"></my-index-blog>
           <my-index-blog2 name="index-blog2"></my-index-blog2>
           <my-post-add name="post-add"></my-post-add>
+          <my-user-add name="user-add"></my-user-add>
+          <my-user-login name="user-login"></my-user-login>
+          <my-user-remove name="user-remove"></my-user-remove>
+
+          <my-view3 name="view3"></my-view3>
+          <my-view404 name="view404"></my-view404>
         </iron-pages>
       </app-header-layout>
     </app-drawer-layout>

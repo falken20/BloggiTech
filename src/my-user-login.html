@@ -11,9 +11,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 
-<link href="src/sticky.css" rel="stylesheet" type="text/css"/>
-<link href="src/login.css" rel="stylesheet" type="text/css"/>
-
 <dom-module id="my-user-login">
   <template>
     <style>
@@ -30,7 +27,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <h1>Welcome to BloggiTech!</h1>
           <p><small>Only be Tech</small></p>
       </div>
-      <span id="mensaje">...</span>
     </div>
     <div class="col-sm-6 col-md-6">
         <div class="login-container">
@@ -42,6 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           <input name="passwordInput" type="password" placeholder="password">
                           <button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button>
                           <p><small>No account? <a href="user-add">Create one!</a></small></p>
+                          <span id="mensaje">...</span>
                       </form>
                   </div>
         </div>              
@@ -71,17 +68,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
           peticion.send('{"nombre":"' + username + '", "password": "' + password + '"}');       
           console.log(peticion.responseText);
-          var spanMensaje = document.getElementById("mensaje");
+          var spanMensaje = document.getElementById("mes");
           var respuesta = JSON.parse(peticion.responseText);
           if (peticion.status=="200" && respuesta.data.count > 0)
           {
-              this.$.mensaje.text = "Login OKKKKKK";
-              /* spanMensaje.innerText = "Login correcto"; */
-              sessionStorage.setItem("usuario", username);
+            console.log("ROD: User " + username + " logged");
+            sessionStorage.setItem("usuario", username);
+            this.$.mensaje.value = "Login OKKKKKK";
+            spanMensaje.innerText = "Login correcto";
           }
           else 
           {
-              spanMensaje.innerText = "Login incorrecto";
+            spanMensaje.innerText = "Login incorrecto";
           }
         }
       })
