@@ -1,0 +1,205 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<!-- Añadimos compoenente que viene para en linea inferior para sacar array (    <template is="dom-repeat" items="...)-->
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+
+<dom-module id="my-post-add">
+  <template>
+    <style>
+      :host {  /* Para referenciar el estilo de mi componente */
+        display: inline-block;
+        background-color: white;
+        width: -moz-available;
+        align-items: center;
+      }
+    </style>
+
+    <div class="container">
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step">
+                <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                <p>Step 1</p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                <p>Step 2</p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                <p>Step 3</p>
+            </div>
+        </div>
+    </div>
+    <form role="form">
+        <div class="row setup-content" id="step-1">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3> Step 1</h3>
+                    <div class="form-group">
+                        <label class="control-label">First Name</label>
+                        <input  maxlength="50" type="text" required="required" class="form-control" placeholder="Enter First Name" name="nombreInput"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Last Name</label>
+                        <input maxlength="50" type="text" required="required" class="form-control" placeholder="Enter Last Name" name="apellidoInput"/>
+                    </div>
+                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-2">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3> Step 2</h3>
+                    <div class="form-group">
+                        <label class="control-label">Post title</label>
+                        <input maxlength="100" type="text" required="required" class="form-control" placeholder="Post title" name="tituloInput"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Post text</label>
+                        <input maxlength="200" type="text" required="required" class="form-control" placeholder="Post text" name="textoInput"/>
+                    </div>
+                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-3">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3> Step 3</h3>
+                    <div class="form-group">
+                        <label class="control-label">Date</label>
+                        <input maxlength="10" type="date" required="required" class="form-control" placeholder="Post date" name="dateInput"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Labels</label>
+                        <input maxlength="200" type="text" required="required" class="form-control" placeholder="Labels" name="labelsInput"/>
+                    </div>
+                    <button class="btn btn-success btn-lg pull-right" type="submit">Finish!</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+
+
+
+    <!-- Metemos parte para interactuar con MongoDB -->
+    <div><span>Ahora vamos a interactuar con MongoDB....</span></div>
+    <div>
+      Titulo:
+      <input type="text" name="tituloInput"/>
+      <p>
+      Texto:
+      <input type="text" name="textoInput"/>
+      <p>
+      Autor:
+      <input type="text" name="textoNombre"/><input type="text" name="textoApellido"/>
+    </div>
+
+    <div><button type="button" name="btnGrabarPost" on-click="grabarPosts">Añadir post a MongoDB</button></div>
+    <p>
+    <div><button type="button" name="btnObtenerPosts" on-click="obtenerPosts">Obtener posts MongoDB</button></div>
+    <p>
+    <div>POSTS...</div>
+    <template is="dom-repeat" items="[[posts]]">
+      <div>
+        <b>Título:</b> [[item.titulo]], <b>Texto:</b> [[item.texto]], <b>Autor:</b> [[item.autor.nombre]] [[item.autor.apellido]]
+        <button type="button" name="btnBorrarPosts" on-click="borrarPosts(" + item._id + ")">Borrar post</button>
+      </div>
+    </template>
+
+  </template>
+    <script>
+      /* Lo siguiente es porque heredamos del Polymer element. Se podria hacer como en my-view poniendo class...
+      class MyView1 extends Polymer.Element {
+        static get is() { return 'my-view1'; }
+      }
+      */
+      Polymer({
+        is: 'my-post-add',
+        properties: {
+          url: {
+            type: String,
+            value: "https://api.mlab.com/api/1/databases/dbbootcamp/collections/posts"
+          },
+          apiKey: {
+            type: String,
+            value: "?apiKey=CQjEP7tpIq0_e_u0XbMU2o1Xgt8fgB74"
+          },
+          posts: {
+            type: Array,
+            notify: true, //Automáticamente refresca cuando cambia algo...(se supone)
+          }
+        },
+        listeners: {
+        },
+        reaady: function() {
+          var navListItems = $('div.setup-panel div a'),
+                  allWells = $('.setup-content'),
+                  allNextBtn = $('.nextBtn');
+
+          allWells.hide();
+
+          navListItems.click(function (e) {
+              e.preventDefault();
+              var $target = $($(this).attr('href')),
+                      $item = $(this);
+
+              if (!$item.hasClass('disabled')) {
+                  navListItems.removeClass('btn-primary').addClass('btn-default');
+                  $item.addClass('btn-primary');
+                  allWells.hide();
+                  $target.show();
+                  $target.find('input:eq(0)').focus();
+              }
+          });
+
+          allNextBtn.click(function(){
+              var curStep = $(this).closest(".setup-content"),
+                  curStepBtn = curStep.attr("id"),
+                  nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                  curInputs = curStep.find("input[type='text'],input[type='url']"),
+                  isValid = true;
+
+              $(".form-group").removeClass("has-error");
+              for(var i=0; i<curInputs.length; i++){
+                  if (!curInputs[i].validity.valid){
+                      isValid = false;
+                      $(curInputs[i]).closest(".form-group").addClass("has-error");
+                  }
+              }
+
+              if (isValid)
+                  nextStepWizard.removeAttr('disabled').trigger('click');
+          });
+
+          $('div.setup-panel div a.btn-primary').trigger('click');
+        },
+        grabarPosts: function() {
+          var titulo = document.getElementsByName("tituloInput")[0].value;
+          var texto = document.getElementsByName("textoInput")[0].value;
+          var nombre = document.getElementsByName("textoNombre")[0].value;
+          var apellido = document.getElementsByName("textoApellido")[0].value;
+          console.log("Titulo: " + titulo + ", Texto: " + texto + ", Nombre: " + nombre + " " + apellido);
+          var peticion = new XMLHttpRequest();
+          peticion.open("POST", this.url + this.apiKey, true);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send('{"titulo":"' + titulo + '", "texto": "' + texto + '", "autor":{"nombre":"' + nombre + '", "apellido": "' + apellido + '"}}');
+        },
+        borrarPosts: function(id) {
+          var peticion = new XMLHttpRequest();
+          var URLItem = "https://api.mlab.com/api/1/databases/dbbootcamp/collections/posts/";
+          URLItem += id;
+          URLItem += this.apiKey;
+          console.log("Procedemos a borrar el post con id: " + id);
+          peticion.open("DELETE", URLItem, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send();
+          console.log("El post con id: " + id + " ha sido borrado");
+        }
+      })
+    </script>
+</dom-module>

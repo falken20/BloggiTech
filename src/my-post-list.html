@@ -1,0 +1,93 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<!-- Añadimos compoenente que viene para en linea inferior para sacar array (    <template is="dom-repeat" items="...)-->
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+
+<dom-module id="my-post-list">
+  <template>
+    <style>
+      :host {  /* Para referenciar el estilo de mi componente */
+        display: inline-block;
+        background-color: white;
+        width: -moz-available;
+        align-items: center;
+      }
+      .container{
+          margin-top:40px;
+      }
+    </style>
+
+    <div class="container">
+      <div class="row">
+        <template is="dom-repeat" items="[[posts]]">
+        <div class="row"> 
+          <div class="col-xs-12 col-sm-3 col-md-3">
+              <a href="#">
+                  <img src="[[item.urlfoto]]"" style="width:250px;height:160px;" class="img-responsive img-box img-thumbnail"> 
+              </a>
+          </div> 
+          <div class="col-xs-12 col-sm-9 col-md-9">
+              <div class="list-group">
+                  <div class="list-group-item">
+                      <div class="row-content">
+                          <div class="list-group-item-heading">
+                             <small>[[item.nombre]]</small>
+                          </div>
+                          <small>
+                              <i class="glyphicon glyphicon-time"></i> [[item.fecha]]<br>
+                              <span class="explore"><i class="glyphicon glyphicon-th"></i> <a href="#">[[item.labels]]</a></span>
+                          </small>
+                      </div>
+                  </div>
+              </div>
+              <h4>[[item.titulo]]</h4>
+              <p>[[item.texto]]</p>
+          </div> 
+        </div>
+        <hr>
+        </template>
+      </div>
+    </div>
+
+  </template>
+    <script>
+      Polymer({
+        is: 'my-post-list',
+        properties: {
+          url: {
+            type: String,
+            value: "https://api.mlab.com/api/1/databases/dbbootcamp/collections/posts"
+          },
+          apiKey: {
+            type: String,
+            value: "?apiKey=CQjEP7tpIq0_e_u0XbMU2o1Xgt8fgB74"
+          },
+          posts: {
+            type: Array,
+            notify: true, //Automáticamente refresca cuando cambia algo...(se supone)
+          },
+          userlogado: {
+            type: String,
+            value: "NoLogado"
+          }
+        },
+        listeners: {
+        },
+        ready: function() {
+          this.userlogado = sessionStorage.getItem("usuario");
+          console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
+          this.obtenerPostsUsuario();
+        },
+        obtenerPostsUsuario: function () {
+          var peticion = new XMLHttpRequest();
+          peticion.open("GET", this.url + this.apiKey, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send();
+          this.posts = JSON.parse(peticion.responseText);
+          sessionStorage["posts"] = peticion.responseText;
+          console.log("ROD: " + peticion.responseText);
+        }
+      })
+    </script>
+</dom-module>

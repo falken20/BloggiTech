@@ -13,7 +13,24 @@
         width: -moz-available;
         align-items: center;
       }
+      .row{
+        margin-top: 40px;
+      }
+      .container {
+        margin-top: 1px;
+      }
     </style>
+
+    <div class="row">
+      <template is="dom-repeat" items="[[posts]]" targetFramerate=2>
+        <div class="col-xs-6 col-md-3">
+          <a href="#" class="thumbnail">
+            <img src="[[item.urlfoto]]" style="width:250px;height:160px;">
+            <center><h6>[[item.titulo]]</h6></center>
+          </a>
+        </div>
+      </template>
+    </div>
 
     <div class='container'>
       <div class="row">
@@ -23,7 +40,7 @@
                         <img src="[[item.urlfoto]]">
                         <div class="caption">
                             <h3>[[item.titulo]]</h3>
-                            <p>by [[item.autor.nombre]] [[item.autor.apellido]]</p>
+                            <p>by [[item.nombre]]</p>
                             <p class="post--extended__excerpt invisible--xs visible--md">[[item.texto]]</p>
                             <p><small>[[item.labels]] </small></p>
                             <p><a href="#" class="btn btn-primary" role="button">Ver</a></p>
