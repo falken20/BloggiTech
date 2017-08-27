@@ -22,7 +22,7 @@
     </style>
 
     <div class="row">
-      <template is="dom-repeat" items="[[posts]]" targetFramerate=2>
+      <template is="dom-repeat" items="[[postsHead]]" targetFramerate=2>
         <div class="col-xs-6 col-md-3">
           <a href="#" class="thumbnail">
             <img src="[[item.urlfoto]]" style="width:250px;height:160px;">
@@ -65,9 +65,20 @@
             type: String,
             value: "https://api.mlab.com/api/1/databases/dbbootcamp/collections/posts"
           },
+          paramsUrlHead: { //ROD: Parámetros carrusel de la home, sólo sacar 4 registros ordenados por fecha descendente
+            type: String,
+            value: "s={'fecha': -1}&l=4" 
+          },
+          paramsUrl: { //ROD: Parámetros posts de la home, sólo sacar 10 registros ordenados por fecha descendente
+            type: String,
+            value: "s={'fecha': -1}&l=10"
+          },
           apiKey: {
             type: String,
-            value: "?apiKey=CQjEP7tpIq0_e_u0XbMU2o1Xgt8fgB74"
+            value: "apiKey=CQjEP7tpIq0_e_u0XbMU2o1Xgt8fgB74"
+          },
+          postsHead: {
+            type: Array
           },
           posts: {
             type: Array,
@@ -78,16 +89,23 @@
         },
         ready: function() {
           var peticion = new XMLHttpRequest();
-          peticion.open("GET", this.url + this.apiKey, false);
+          peticion.open("GET", this.url + "?" + this.paramsUrl + "&" + this.apiKey, false);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.send();
           this.posts = JSON.parse(peticion.responseText);
           sessionStorage["posts"] = peticion.responseText;
-          console.log("ROD: " + peticion.responseText);
+          //A partir de this.posts obtenemos un JSON con el titulo y url de los 4 ultimos posts para mostrar en el carrusel de la home
+          this.postsHead = '[ {"titulo":' + '"' + this.posts[0].titulo + '", "urlfoto":' +  '"' + this.posts[0].urlfoto + '" }';
+          this.postsHead += ',{"titulo":' + '"' + this.posts[1].titulo + '", "urlfoto":' +  '"' + this.posts[1].urlfoto + '" }';
+          this.postsHead += ',{"titulo":' + '"' + this.posts[2].titulo + '", "urlfoto":' +  '"' + this.posts[2].urlfoto + '" }';
+          this.postsHead += ',{"titulo":' + '"' + this.posts[3].titulo + '", "urlfoto":' +  '"' + this.posts[3].urlfoto + '" } ]';
+          this.postsHead = JSON.parse(this.postsHead);
+          console.log("ROD postsHead: " + this.postsHead);
+          console.log("ROD posts: " + peticion.responseText);
         },
         obtenerPosts: function() {
           var peticion = new XMLHttpRequest();
-          peticion.open("GET", this.url + this.apiKey, false);
+          peticion.open("GET", this.url + "&" + this.apiKey, false);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.send();
           this.posts = JSON.parse(peticion.responseText);

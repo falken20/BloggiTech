@@ -59,9 +59,13 @@
             type: String,
             value: "https://api.mlab.com/api/1/databases/dbbootcamp/collections/posts"
           },
+          paramsUrl: {
+            type: String,
+            value: "q={'nombre':"
+          },
           apiKey: {
             type: String,
-            value: "?apiKey=CQjEP7tpIq0_e_u0XbMU2o1Xgt8fgB74"
+            value: "apiKey=CQjEP7tpIq0_e_u0XbMU2o1Xgt8fgB74"
           },
           posts: {
             type: Array,
@@ -81,7 +85,9 @@
         },
         obtenerPostsUsuario: function () {
           var peticion = new XMLHttpRequest();
-          peticion.open("GET", this.url + this.apiKey, false);
+          var urlListPosts = this.url + "?" + this.paramsUrl + "'" + this.userlogado + "'}&" + this.apiKey;
+          console.log("ROD urlListPosts: " + urlListPosts);
+          peticion.open("GET", urlListPosts, false);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.send();
           this.posts = JSON.parse(peticion.responseText);
