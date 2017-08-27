@@ -154,7 +154,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                 </ul>
                             </li>
                             <li><a href="index-blog2">Prueba</a></li>
-                            <li><small>User: [[login]]</small></li>
+                            <li><a href="user-remove" style="color:red">[[login]]</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
@@ -221,6 +221,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _routePageChanged(page) {
         // Polymer 2.0 will call with `undefined` on initialization.
         // Ignore until we are properly called with a string.
+
+        //ROD: Actualizamos el usuario que esta logado
+        if (sessionStorage.getItem("usuario") == null || sessionStorage.getItem("usuario") == "") {
+          this.login = "";
+        } else {
+          this.login = "User: " + sessionStorage.getItem("usuario");
+        }
+
         if (page === undefined) {
           return;
         }

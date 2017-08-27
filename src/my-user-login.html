@@ -39,7 +39,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           <button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button>
                           <p><small>No account? <a href="user-add">Create one!</a></small></p>
                           <span id="mensaje">...</span>
-                      </form>
+                          <input name="mensaje2" type="text">
+                     </form>
                   </div>
         </div>              
     </div>
@@ -53,13 +54,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           url: {
             type: String,
             value: "http://postgrebc9688.cloudapp.net:3000/api/login"
+          },
+          login: {
+            type: String,
+            //computed: 'funcion()',
+            readOnly: true,
+            notify: true            
           }
         },
         listeners: {
         },
         loginUser: function() {
-          var username = document.getElementsByName("usernameInput")[0].value;
           var password = document.getElementsByName("passwordInput")[0].value;
+          var username = document.getElementsByName("usernameInput")[0].value;
           console.log("ROD: username:" + username);
           console.log("ROD: password:" + password);
           var peticion = new XMLHttpRequest();
@@ -68,18 +75,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
           peticion.send('{"nombre":"' + username + '", "password": "' + password + '"}');       
           console.log(peticion.responseText);
-          var spanMensaje = document.getElementById("mes");
+          var spanMensaje = document.getElementById("mensaje2");
           var respuesta = JSON.parse(peticion.responseText);
           if (peticion.status=="200" && respuesta.data.count > 0)
           {
             console.log("ROD: User " + username + " logged");
             sessionStorage.setItem("usuario", username);
-            this.$.mensaje.value = "Login OKKKKKK";
+            this.login = "User: " + username;
+            document.getElementsByName("usernameInput")[0].value = "";
+            document.getElementsByName("passwordInput")[0].value = "";
             spanMensaje.innerText = "Login correcto";
           }
           else 
           {
-            spanMensaje.innerText = "Login incorrecto";
+            document.getElementsByName("mensaje2")[0].value = "Login incorrecto";
           }
         }
       })
