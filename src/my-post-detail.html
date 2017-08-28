@@ -4,7 +4,7 @@
 <!-- Añadimos compoenente que viene para en linea inferior para sacar array (    <template is="dom-repeat" items="...)-->
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 
-<dom-module id="my-post-list">
+<dom-module id="my-post-detail">
   <template>
     <style>
       :host {  /* Para referenciar el estilo de mi componente */
@@ -18,42 +18,32 @@
       }
     </style>
 
-    <div class="container">
-      <div class="row">
-        <template is="dom-repeat" items="[[posts]]">
-        <div class="row"> 
-          <div class="col-xs-12 col-sm-3 col-md-3">
-              <a href="#">
-                  <img src="[[item.urlfoto]]" style="width:250px;height:160px;" class="img-responsive img-box img-thumbnail"> 
-              </a>
-          </div> 
-          <div class="col-xs-12 col-sm-9 col-md-9">
-              <div class="list-group">
-                  <div class="list-group-item">
-                      <div class="row-content">
-                          <div class="list-group-item-heading">
-                             <small><span class="explore"><i class="glyphicon glyphicon-user"></i> [[item.nombre]]</small>
-                          </div>
-                          <span class="label label-primary"><i class="glyphicon glyphicon-time"></i> [[item.fecha]]<br></span>
-                          <small>
-                              <span class="explore"><i class="glyphicon glyphicon-tag"></i> <a href="#">[[item.labels]]</a></span>
-                          </small>
-                      </div>
-                  </div>
-              </div>
-              <h4>[[item.titulo]]</h4>
-              <p>[[item.texto]]</p>
-          </div> 
-        </div>
-        <hr>
-        </template>
+    <template is="dom-repeat" items="[[posts]]">
+      <div class="container">
+          <div class="row">
+              <h4><strong><a href="#">[[item.titulo]]</a></strong></h4>
+          </div>
+          <div class="row">
+          <div class="span4"><img src="[[item.urlfoto]]" style="width:250px;max-width:50%;height:auto;"></div>
+          <div class="span8">[[item.texto]]</div>
+          </div>
+          <div class="row">
+              <p></p>
+              <p>
+                <i class="glyphicon glyphicon-user"></i><a href="#"> [[item.nombre]]</a> 
+                | <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]
+                | <i class="glyphicon glyphicon-tag"></i> 
+                <a href="#"><span class="label label-info">[[item.labels]]</span></a> 
+              </p>
+          </div>
       </div>
-    </div>
+      <hr>
+    </template>
 
   </template>
     <script>
       Polymer({
-        is: 'my-post-list',
+        is: 'my-post-detail',
         properties: {
           url: {
             type: String,

@@ -38,8 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           <input name="passwordInput" type="password" placeholder="password">
                           <button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button>
                           <p><small>No account? <a href="user-add">Create one!</a></small></p>
-                          <span id="mensaje">...</span>
-                          <input name="mensaje2" type="text">
+                          <input name="mensaje" type="text" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;">
                      </form>
                   </div>
         </div>              
@@ -75,7 +74,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
           peticion.send('{"nombre":"' + username + '", "password": "' + password + '"}');       
           console.log(peticion.responseText);
-          var spanMensaje = document.getElementById("mensaje2");
           var respuesta = JSON.parse(peticion.responseText);
           if (peticion.status=="200" && respuesta.data.count > 0)
           {
@@ -84,11 +82,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.login = "User: " + username;
             document.getElementsByName("usernameInput")[0].value = "";
             document.getElementsByName("passwordInput")[0].value = "";
-            spanMensaje.innerText = "Login correcto";
+            document.getElementsByName("mensaje")[0].value = "Login correcto";
           }
           else 
           {
-            document.getElementsByName("mensaje2")[0].value = "Login incorrecto";
+            document.getElementsByName("mensaje")[0].value = "Login incorrecto";
           }
         }
       })

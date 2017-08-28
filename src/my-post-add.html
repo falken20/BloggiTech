@@ -18,7 +18,6 @@
       }
     </style>
 
-
     <div class="row">
         <div class="col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
         <div class="panel panel-primary">
@@ -27,6 +26,7 @@
           <div class="panel-body">
             <form name="form_post" action="grabarPosts">
               <div class="form-group">
+                <i class="glyphicon glyphicon-user"></i>
                 <label for="usuario">Usuario</label>
                 <input id="usuario" name="usuario" class="form-control" type="text" disabled="disabled" placeholder="[[userlogado]]">
               </div>
@@ -40,35 +40,31 @@
                 <textarea class="form-control" rows="4" id="texto" name="texto"></textarea>
               </div>
               <div class="form-group">
+                <i class="glyphicon glyphicon-calendar"></i>
                 <label for="fecha">Fecha *</label>
                 <input type="date" name="fecha" id="fecha" class="form-control" placeholder="dd/mm/yyyy">
                 <span id="error_fecha" class="text-danger"></span>
               </div>
               <div class="form-group">
+                <i class="glyphicon glyphicon-tag"></i>
                 <label for="labels">Etiquetas</label>
                 <input id="labels" name="labels" class="form-control" type="text">
               </div>
+
               <div class="input-group image-preview">
-                <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
-                <span class="input-group-btn">
-                    <!-- image-preview-clear button -->
-                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                        <span class="glyphicon glyphicon-remove"></span> Clear
-                    </button>
-                    <!-- image-preview-input -->
-                    <div class="btn btn-default image-preview-input">
-                        <span class="glyphicon glyphicon-folder-open"></span>
-                        <span class="image-preview-input-title">Browse</span>
-                        <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview"/> <!-- rename it -->
-                    </div>
-                </span>
-              </div><!-- /input-group image-preview [TO HERE]--> 
+                <i class="glyphicon glyphicon-picture"></i>
+                <label for="labels">Imagen</label>
+                <input type="file" name="files" id="files" on-change="previewImage" data-validation="required"/>
+                <img name="image" id="image" style="margin-top:10px;max-width:100%;height:auto;border-radius:8px;"/>
+              </div>
+
               <div style="margin-top:30px">
                 <span class="input-group-btn">
                  <!-- <button id="submit" type="submit" value="submit" class="btn btn-primary center">Submit</button> -->
                  <button type="button" name="btnGrabarPost" on-click="grabarPosts" class="btn btn-info btn-block login">Grabar post</button>
                 </span>
-              </div>              
+              </div>     
+              <input name="mensaje" type="text" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;">         
               <div style="margin-top:10px">
                 <span class="input-group-btn">
                  <a href="post-list" class="btn btn-info btn-block login" role="button">Revisar Posts</a>
@@ -100,13 +96,29 @@
           userlogado: {
             type: String,
             value: "NoLogado"
-          }
+          },
+          //Propiedades para guardar en Amazon S3
+          aws_url: {type: String, value: "http://bucket_posts.s3.amazonaws.com/"},
+          aws_access_key: {type: String, value: "AKIAIYNHHZYMZDQLRQ7A"}, //En Amazon Security Credentials
+          aws_secret_key: {type: String, value: ""},
+          aws_bucket: {type: String, value:"bucket-posts"}
         },
         listeners: {
         },
         ready: function() {
           this.userlogado = sessionStorage.getItem("usuario");
           console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
+        },
+        previewImage: function() {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+              // get loaded data and render thumbnail.
+              document.getElementsByName("image")[0].src = e.target.result;
+          };
+          // read the image file as a data URL.
+          console.log(document.getElementsByName("files")[0].value);
+          console.log(document.getElementsByName("image")[0].src);
+          reader.readAsDataURL(document.getElementsByName("files")[0].files[0]);
         },
         grabarPosts: function() {
           var titulo = document.getElementsByName("titulo")[0].value;
@@ -122,11 +134,12 @@
           if (peticion.status=="200")
           {
               console.log("Post añadido");
+              document.getElementsByName("mensaje")[0].value = "Post grabado correctamente";
           }
           else 
           {
               console.log("Error al grabar el post");
-              spanMensaje.innerText = "No se pudo crear el usuario";
+              document.getElementsByName("mensaje")[0].value = "Error al grabar post";
           }         
         }
       })
