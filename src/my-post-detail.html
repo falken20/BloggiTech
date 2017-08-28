@@ -18,6 +18,8 @@
       }
     </style>
 
+    <div><span>[[url]]</span></div>
+    
     <template is="dom-repeat" items="[[posts]]">
       <div class="container">
           <div class="row">
@@ -64,7 +66,8 @@
           userlogado: {
             type: String,
             value: "NoLogado"
-          }
+          },
+          idPost: String
         },
         listeners: {
         },
