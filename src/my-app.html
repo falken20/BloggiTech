@@ -32,6 +32,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="my-user-remove.html">
 <link rel="lazy-import" href="my-post-add.html">
 <link rel="lazy-import" href="my-post-list.html">
+<link rel="lazy-import" href="my-post-listlarge.html">
 <link rel="lazy-import" href="my-post-detail.html">
 
 <link rel="lazy-import" href="my-view3.html">
@@ -177,7 +178,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <my-index-blog2 name="index-blog2"></my-index-blog2>
           <my-post-add name="post-add"></my-post-add>
           <my-post-list name="post-list"></my-post-list>
-          <my-post-detail name="post-detail"></my-post-detail>
+          <my-post-listlarge name="post-listlarge"></my-post-listlarge>
+          <my-post-detail name="post-detail" idPost="Hola Detail"></my-post-detail>
           <my-user-add name="user-add"></my-user-add>
           <my-user-login name="user-login"></my-user-login>
           <my-user-remove name="user-remove"></my-user-remove>
@@ -220,6 +222,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // Get root pattern for app-route, for more info about `rootPath` see:
         // https://www.polymer-project.org/2.0/docs/upgrade#urls-in-templates
         this.rootPattern = (new URL(this.rootPath)).pathname;
+        console.log("ROD: " + window.location.href);
+        console.log("ROD: " + window.location.pathname);
       }
 
       _routePageChanged(page) {

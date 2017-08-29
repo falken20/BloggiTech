@@ -39,6 +39,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           <button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button>
                           <p><small>No account? <a href="user-add">Create one!</a></small></p>
                           <input name="mensaje" type="text" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;">
+                          <p name="ok" class="bg-success" style="visibility:hidden;font-size:large;font-weight:bold;">Login Correcto</p>
                      </form>
                   </div>
         </div>              
@@ -83,6 +84,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             document.getElementsByName("usernameInput")[0].value = "";
             document.getElementsByName("passwordInput")[0].value = "";
             document.getElementsByName("mensaje")[0].value = "Login correcto";
+            document.getElementsByName("ok")[0].style.visibility = "visible";
           }
           else 
           {

@@ -4,7 +4,7 @@
 <!-- Añadimos compoenente que viene para en linea inferior para sacar array (    <template is="dom-repeat" items="...)-->
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 
-<dom-module id="my-post-list">
+<dom-module id="my-post-listlarge">
   <template>
     <style>
       :host {  /* Para referenciar el estilo de mi componente */
@@ -27,34 +27,24 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="max-width: 80%">
       <div class="row">
         <template is="dom-repeat" items="[[posts]]">
-          <div class="row"> 
-            <div class="col-xs-12 col-sm-3 col-md-3">
-                <a href="#">
-                    <img src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg';" style="width:250px;height:160px;" class="img-responsive img-box img-thumbnail"> 
-                </a>
-            </div> 
-            <div class="col-xs-12 col-sm-9 col-md-9">
-                <div class="list-group">
-                    <div class="list-group-item">
-                        <div class="row-content">
-                            <div class="list-group-item-heading">
-                               <small><span class="explore"><i class="glyphicon glyphicon-user"></i> [[item.nombre]]</small>
-                            </div>
-                            <span class="label label-primary"><i class="glyphicon glyphicon-time"></i> [[item.fecha]]<br></span>
-                            <small>
-                                <span class="explore"><i class="glyphicon glyphicon-tag"></i> <a href="#">[[item.labels]]</a></span>
-                            </small>
-                        </div>
-                    </div>
-                </div>
-                <h4>[[item.titulo]]</h4>
-                <p>[[item.texto]]</p>
-            </div> 
+          <div class="col-sm-6 col-md-6">
+              <div class="thumbnail">
+                  <img src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg'">
+                  <div class="caption">
+                      <h3>[[item.titulo]]</h3>
+                      <small>
+                          <i class="glyphicon glyphicon-user"></i> [[item.nombre]]<br>
+                          <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]<br>
+                          <span class="explore"><i class="glyphicon glyphicon-tag"></i> <a href="#">[[item.labels]]</a></span>
+                      </small>
+                      <p class="post--extended__excerpt invisible--xs visible--md" style="margin-top:10px">[[item.texto]]</p>
+                      <p><a href="richi-micomponente" class="btn btn-primary" role="button">Ver</a></p>
+                  </div>
+              </div>
           </div>
-          <hr>
         </template>
       </div>
     </div>
@@ -62,7 +52,7 @@
   </template>
     <script>
       Polymer({
-        is: 'my-post-list',
+        is: 'my-post-listlarge',
         properties: {
           url: {
             type: String,

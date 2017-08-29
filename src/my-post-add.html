@@ -18,6 +18,8 @@
       }
     </style>
 
+    <my-user-add></my-user-add>
+
     <div class="row">
         <div class="col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
         <div class="panel panel-primary">
@@ -64,10 +66,11 @@
                  <button type="button" name="btnGrabarPost" on-click="grabarPosts" class="btn btn-info btn-block login">Grabar post</button>
                 </span>
               </div>     
-              <input name="mensaje" type="text" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;">         
+              <input name="mensajeposts" type="text" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;">         
               <div style="margin-top:10px">
                 <span class="input-group-btn">
                  <a href="post-list" class="btn btn-info btn-block login" role="button">Revisar Posts</a>
+                 <button type="button" name="btnUploadS3Amazon" on-click="uploadS3Amazon" class="btn btn-info btn-block login">Upload S3</button>
                 </span>
               </div>
             </form>
@@ -98,10 +101,13 @@
             value: "NoLogado"
           },
           //Propiedades para guardar en Amazon S3
-          aws_url: {type: String, value: "http://bucket_posts.s3.amazonaws.com/"},
+          aws_url_api: {type: String, value: "s3-eu-west-1.amazonaws.com/bucket-posts"},
+          //aws_url_api: {type: String, value: "bucket_posts.execute-api.eu-west-1.amazonaws.com"},
+          aws_url_host: {type: String, value: "bucket_posts.s3.amazonaws.com"},
           aws_access_key: {type: String, value: "AKIAIYNHHZYMZDQLRQ7A"}, //En Amazon Security Credentials
           aws_secret_key: {type: String, value: ""},
-          aws_bucket: {type: String, value:"bucket-posts"}
+          aws_bucket: {type: String, value:"bucket-posts"},
+          aws_url_foto: {type: String, value:"https://s3-eu-west-1.amazonaws.com/bucket-posts/"}
         },
         listeners: {
         },
@@ -134,13 +140,30 @@
           if (peticion.status=="200")
           {
               console.log("Post añadido");
-              document.getElementsByName("mensaje")[0].value = "Post grabado correctamente";
+              document.getElementsByName("mensajeposts")[0].value = "Post grabado correctamente";
           }
           else 
           {
               console.log("Error al grabar el post");
-              document.getElementsByName("mensaje")[0].value = "Error al grabar post";
+              document.getElementsByName("mensajeposts")[0].value = "Error al grabar post";
           }         
+        },
+        uploadS3Amazon: function() {
+          var peticion = new XMLHttpRequest();
+          peticion.open("POST", aws_url_api, true);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send('{"titulo":"' + titulo + '", "texto":"' + texto + '", "nombre":"' + this.userlogado + '", "fecha": "' + fecha + '", "labels": "' + labels + '"}}');
+          var respuesta = JSON.parse(peticion.responseText);
+          if (peticion.status=="200")
+          {
+              console.log("Post añadido");
+              document.getElementsByName("mensajeposts")[0].value = "Post grabado correctamente";
+          }
+          else 
+          {
+              console.log("Error al grabar el post");
+              document.getElementsByName("mensajeposts")[0].value = "Error al grabar post";
+          }                   
         }
       })
     </script>
