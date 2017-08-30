@@ -68,8 +68,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         listeners: {
         },
         prueba: function() {
-          console.log(window.location.href + "/index-blog2");
-          //window.location.assign(window.location.hostname + "/index-blog2");
+          console.log("ROD: Entro en prueba");
+          var urlpage = "http://" + window.location.hostname + ":" + window.location.port + "/index-blog2";
+          console.log("ROD urlpage: " + urlpage);
+          window.location.assign(urlpage);
         },
         loginUser: function() {
           var password = document.getElementsByName("passwordInput")[0].value;

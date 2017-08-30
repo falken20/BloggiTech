@@ -30,31 +30,59 @@
     <div class="container">
       <div class="row">
         <template is="dom-repeat" items="[[posts]]">
-          <div class="row"> 
+
+        <div class="thumbnail">
+
+          <div id="form_con_[[item._id.$oid]]" style='display:block;'>
+            <div class="row">
             <div class="col-xs-12 col-sm-3 col-md-3">
                 <a href="#">
                     <img src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg';" style="width:250px;height:160px;" class="img-responsive img-box img-thumbnail"> 
                 </a>
             </div> 
-            <div class="col-xs-12 col-sm-9 col-md-9">
-                <div class="list-group">
-                    <div class="list-group-item">
-                        <div class="row-content">
-                            <div class="list-group-item-heading">
-                               <small><span class="explore"><i class="glyphicon glyphicon-user"></i> [[item.nombre]]</small>
-                            </div>
-                            <span class="label label-primary"><i class="glyphicon glyphicon-time"></i> [[item.fecha]]<br></span>
-                            <small>
-                                <span class="explore"><i class="glyphicon glyphicon-tag"></i> <a href="#">[[item.labels]]</a></span>
-                            </small>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-xs-12 col-sm-9 col-md-9" style="margin-top: 5px">
+                <p>
+                  <i class="glyphicon glyphicon-user"></i><a href="#"> [[item.nombre]]</a> 
+                  | <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]
+                  | <i class="glyphicon glyphicon-tag"></i> 
+                  <a href="#"><span class="label label-info">[[item.labels]]</span></a> 
+                </p>
                 <h4>[[item.titulo]]</h4>
-                <p>[[item.texto]]</p>
+                <p>[[item.texto]]</p> 
             </div> 
+            </div>
           </div>
-          <hr>
+
+          <!-- Formulario oculto para modificar -->
+          <div id="form_mod_[[item._id.$oid]]" style='display:none;'>
+                <div class="row"> 
+                  <div class="col-xs-12 col-sm-3 col-md-3">
+                      <a href="#">
+                          <img src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg';" style="width:250px;height:160px;" class="img-responsive img-box img-thumbnail"> 
+                      </a>
+                  </div> 
+                  <div class="col-xs-12 col-sm-9 col-md-9">
+                      <p>
+                        <i class="glyphicon glyphicon-user"></i><a href="#"> [[item.nombre]]</a> 
+                        | <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]
+                        | <i class="glyphicon glyphicon-tag"></i> 
+                        <input id="labels" name="labels" type="text" value="[[item.labels]]" style="size: 30">
+                      </p>
+                      <h4><input id="titulo" name="titulo" class="form-control" type="text" data-validation="required" value="[[item.titulo]]"></h4>
+                      <p><textarea class="form-control" rows="4" id="texto" name="texto" value="[[item.texto]]"></textarea></p>
+                  </div> 
+                </div>
+          </div>          
+
+          <div class="col-xs-12 col-sm-12 col-md-12" style="margin-top: 10px; margin-bottom: 20px">
+            <button type="button" name="btnModificarPost" id="[[item._id.$oid]]" on-click="modificarPost" class="btn btn-primary">Modificar</button>
+            <button type="button" name="btnCancelarPost" id="[[item._id.$oid]]" on-click="cancelarPost" class="btn btn-primary">Cancelar</button>
+          </div>
+
+          <hr><hr>
+
+          </div>
+
         </template>
       </div>
     </div>
@@ -102,6 +130,16 @@
           this.posts = JSON.parse(peticion.responseText);
           sessionStorage["posts"] = peticion.responseText;
           console.log("ROD: " + peticion.responseText);
+        },
+        modificarPost: function(e) {
+          //El parametro 'e' se corresponde con el objeto que llama al metodo
+          this.$$("#form_mod_" + e.target.id).style.display = "block";
+          this.$$("#form_con_" + e.target.id).style.display = "none";
+        },
+        cancelarPost: function(e) {
+          //El parametro 'e' se corresponde con el objeto que llama al metodo
+          this.$$("#form_mod_" + e.target.id).style.display = "none";
+          this.$$("#form_con_" + e.target.id).style.display = "block";
         }
       })
     </script>

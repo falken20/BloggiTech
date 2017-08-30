@@ -15,19 +15,20 @@
       }
       .container{
           margin-top:40px;
+          align-items: center;
       }
     </style>
 
     <div><span>[[idPost]]</span></div>
     
     <template is="dom-repeat" items="[[posts]]">
-      <div class="container">
+      <div class="container col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
           <div class="row">
-              <h4><strong><a href="#">[[item.titulo]]</a></strong></h4>
+              <h2><strong>[[item.titulo]]</strong></h2>
           </div>
           <div class="row">
-          <div class="span4"><img src="[[item.urlfoto]]" style="width:250px;max-width:50%;height:auto;"></div>
-          <div class="span8">[[item.texto]]</div>
+          <div class="span4"><img src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg';" style="width:250px;max-width:50%;height:auto;"></div>
+          <div class="span8" style="margin-top: 10px">[[item.texto]]</div>
           </div>
           <div class="row">
               <p></p>
