@@ -38,8 +38,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           <input name="passwordInput" type="password" placeholder="password">
                           <button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button>
                           <p><small>No account? <a href="user-add">Create one!</a></small></p>
-                          <input name="mensaje" type="text" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;">
+                          <!-- <input name="mensaje" type="text" style="border:0; background-color:white; font-size:large; font-weight:bold; color:red; text-transform:uppercase;"> -->
                           <p name="ok" class="bg-success" style="visibility:hidden;font-size:large;font-weight:bold;">Login Correcto</p>
+                          <p name="ko" class="bg-danger" style="visibility:hidden;font-size:large;font-weight:bold;">Login Incorrecto</p>
+
+                          <button class="btn btn-info btn-block login" type="button" name="btnPrueba" on-click="prueba">Prueba</button>
                      </form>
                   </div>
         </div>              
@@ -64,6 +67,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         listeners: {
         },
+        prueba: function() {
+          console.log(window.location.href + "/index-blog2");
+          //window.location.assign(window.location.hostname + "/index-blog2");
+        },
         loginUser: function() {
           var password = document.getElementsByName("passwordInput")[0].value;
           var username = document.getElementsByName("usernameInput")[0].value;
@@ -83,12 +90,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.login = "User: " + username;
             document.getElementsByName("usernameInput")[0].value = "";
             document.getElementsByName("passwordInput")[0].value = "";
-            document.getElementsByName("mensaje")[0].value = "Login correcto";
+            document.getElementsByName("ko")[0].style.visibility = "hidden";
             document.getElementsByName("ok")[0].style.visibility = "visible";
           }
           else 
           {
-            document.getElementsByName("mensaje")[0].value = "Login incorrecto";
+            document.getElementsByName("ok")[0].style.visibility = "hidden";
+            document.getElementsByName("ko")[0].style.visibility = "visible";
           }
         }
       })
