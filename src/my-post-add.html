@@ -3,6 +3,7 @@
 
 <!-- Añadimos compoenente que viene para en linea inferior para sacar array (    <template is="dom-repeat" items="...)-->
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="my-user-login.html">
 
 <dom-module id="my-post-add">
   <template>
@@ -18,9 +19,11 @@
       }
     </style>
 
-    <my-user-login name="user-login"></my-user-login>
+    <div id="formlogin" style='display:none;'>
+      <my-user-login name="user-login"></my-user-login>
+    </div>
 
-    <div class="row">
+    <div class="row" id="formpost" style='display:block;'>
         <div class="col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
         <div class="panel panel-primary">
           <div class="panel-heading">Introduce los datos del post
@@ -114,6 +117,11 @@
         ready: function() {
           this.userlogado = sessionStorage.getItem("usuario");
           console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
+          if (this.userlogado == null) {
+            console.log("Entrooooooooooooooooo");
+            this.$$("#formpost").style.display = "none";
+            this.$$("#formlogin").style.display = "block";
+          }
         },
         previewImage: function() {
           var reader = new FileReader();
