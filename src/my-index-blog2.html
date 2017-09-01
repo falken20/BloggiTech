@@ -4,6 +4,7 @@
 <!-- Añadimos compoenente que viene para en linea inferior para sacar array (    <template is="dom-repeat" items="...)-->
 
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <dom-module id="my-index-blog2">
   <template>
@@ -36,7 +37,9 @@
                       <p>[[item.texto]]</p>
                     </div>
                     <div class="mascara-enlace-blog-home">
-                      <span>Ver</span>
+                      <div class='btn-group btn-group-lg'>
+                        <button type="button" name="btnVerPost" id="[[item._id]]" on-click="verPost" class="btn btn-info">Ver</button>
+                      </div>
                     </div>
                   </a>
                 </div>
@@ -44,7 +47,7 @@
 
                 <template is="dom-repeat" items="[[posts]]">
                 <div class="col-page col-sm-4 col-md-3">
-                  <a href=""  class="fondo-publicacion-home">
+                  <a href="post-detail"  class="fondo-publicacion-home">
                     <div class="img-publicacion-home">
                       <img class="img-responsive" src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg'">
                     </div>
@@ -53,7 +56,10 @@
                       <p>[[item.texto]]</p>
                     </div>
                     <div class="mascara-enlace-blog-home">
-                      <span>Ver</span>
+                      <div class='btn-group btn-group-lg'>
+                        <button type="button" name="btnVerPost" id="[[item._id.$oid]]" on-click="verPost" class="btn btn-info">Ver</button>
+                      </div>
+                      <!-- <span>Ver</span> -->
                     </div>
                   </a>
                 </div>
@@ -61,17 +67,17 @@
 
 
                 <div class="col-page col-sm-4 col-md-3">
-                <a href="user-add" class="todas-las-publicaciones-home">
-                      <span>Date de alta en nuestro Blog</span>
-                  </a>
+                <a class="todas-las-publicaciones-home twitter-timeline" data-width="220" data-height="300" data-theme="light" href="https://twitter.com/_BloggiTech_">Tweets by _BloggiTech_</a><script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+                <!--<a href="user-add" class="todas-las-publicaciones-home">
+                      <span>Date de alta en nuestro Blog</span></a>-->
                 </div>
               </div>
             </div>
           </div>
       </section>
 
+    </template>
 
-  </template>
     <script>
       Polymer({
         is: 'my-index-blog2',
@@ -103,13 +109,14 @@
           peticion.send();
           this.posts = JSON.parse(peticion.responseText);
           sessionStorage["posts"] = peticion.responseText;
-          //A partir de this.posts obtenemos un JSON con el titulo y url de los 4 ultimos posts para mostrar en el carrusel de la home
-          this.postsHead = '[ {"titulo":' + '"' + this.posts[0].titulo + '", "urlfoto":' +  '"' + this.posts[0].urlfoto + '" }';
-          this.postsHead += ',{"titulo":' + '"' + this.posts[1].titulo + '", "urlfoto":' +  '"' + this.posts[1].
-            urlfoto + '" } ]';
-          this.postsHead = JSON.parse(this.postsHead);
-          this.posts.splice(0,2); //Borro los dos post que van en la cabecera
+          //A partir de this.posts obtenemos un JSON con el titulo y url de los 2 ultimos posts para mostrar en el carrusel de la home
+          this.postsHead = '[ {"_id":' + '"' + this.posts[0]._id.$oid + '", "titulo":' + '"' + this.posts[0].titulo + '", "urlfoto":' +  '"' + this.posts[0].urlfoto + '" },';
+          this.postsHead += '{"_id":' + '"' + this.posts[1]._id.$oid + '", "titulo":' + '"' + this.posts[1].titulo + '", "urlfoto":' +  '"' + this.posts[1].urlfoto + '" } ]';
+          //this.postsHead = '[{"titulo":' + '"' + this.posts[0].titulo + '", "urlfoto":' +  '"' + this.posts[0].urlfoto + '" },';
+          //this.postsHead += '{"titulo":' + '"' + this.posts[1].titulo + '", "urlfoto":' +  '"' + this.posts[1].urlfoto + '" } ]';
           console.log("ROD postsHead: " + this.postsHead);
+          this.postsHead = JSON.parse(this.postsHead);
+          this.posts.splice(0,2); //Borro los dos post que van en la cabecera en postHead
           console.log("ROD posts: " + peticion.responseText);
         },
         obtenerPosts: function() {
@@ -120,6 +127,10 @@
           this.posts = JSON.parse(peticion.responseText);
           sessionStorage["posts"] = peticion.responseText;
           console.log("ROD: " + peticion.responseText);
+        },
+        verPost: function(e) {
+          console.log("ROD: Post a consultar " + e.target.id);
+          sessionStorage.setItem("postId", e.target.id);
         }
       })
     </script>

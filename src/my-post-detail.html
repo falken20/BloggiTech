@@ -52,7 +52,7 @@
           },
           paramsUrl: {
             type: String,
-            value: "q={'nombre':"
+            value: "q={'_id':{'$oid':"
           },
           apiKey: {
             type: String,
@@ -62,7 +62,7 @@
             type: Array,
             notify: true, //Automáticamente refresca cuando cambia algo...(se supone)
           },
-          userlogado: {
+          postId: {
             type: String,
             value: "NoLogado"
           }
@@ -70,19 +70,19 @@
         listeners: {
         },
         ready: function() {
-          this.userlogado = sessionStorage.getItem("usuario");
-          console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
-          this.obtenerPostsUsuario();
+          this.postId = sessionStorage.getItem("postId");
+          console.log("ROD: Id post a visualizar " + this.postId);          
+          this.obtenerPost();
         },
-        obtenerPostsUsuario: function () {
+        obtenerPost: function () {
           var peticion = new XMLHttpRequest();
-          var urlListPosts = this.url + "?" + this.paramsUrl + "'" + this.userlogado + "'}&" + this.apiKey;
+          var urlListPosts = this.url + "?" + this.paramsUrl + "'" + this.postId + "'}}&" + this.apiKey;
           console.log("ROD urlListPosts: " + urlListPosts);
           peticion.open("GET", urlListPosts, false);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.send();
           this.posts = JSON.parse(peticion.responseText);
-          sessionStorage["posts"] = peticion.responseText;
+          sessionStorage["postDetalle"] = peticion.responseText;
           console.log("ROD: " + peticion.responseText);
         }
       })

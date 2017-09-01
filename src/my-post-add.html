@@ -113,12 +113,12 @@
           aws_url_foto: {type: String, value:"https://s3-eu-west-1.amazonaws.com/bucket-posts/"}
         },
         listeners: {
+          'tap': 'handleClick'
         },
         ready: function() {
           this.userlogado = sessionStorage.getItem("usuario");
           console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
           if (this.userlogado == null) {
-            console.log("Entrooooooooooooooooo");
             this.$$("#formpost").style.display = "none";
             this.$$("#formlogin").style.display = "block";
           }
@@ -154,6 +154,18 @@
           {
               console.log("Error al grabar el post");
               document.getElementsByName("mensajeposts")[0].value = "Error al grabar post";
+          }         
+        },
+        handleClick: function() {
+          console.log("ROD: Goooooooooooooooooooooooooooooooooo");
+          this.userlogado = sessionStorage.getItem("usuario");
+          console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
+          if (this.userlogado == null) {
+            this.$$("#formpost").style.display = "none";
+            this.$$("#formlogin").style.display = "block";
+          } else {
+            this.$$("#formpost").style.display = "block";
+            this.$$("#formlogin").style.display = "none";            
           }         
         },
         uploadS3Amazon: function() {

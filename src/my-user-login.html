@@ -41,8 +41,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           <!-- <input name="mensaje" type="text" style="border:0; background-color:white; font-size:large; font-weight:bold; color:red; text-transform:uppercase;"> -->
                           <p name="ok" class="bg-success" style="visibility:hidden;font-size:large;font-weight:bold;">Login Correcto</p>
                           <p name="ko" class="bg-danger" style="visibility:hidden;font-size:large;font-weight:bold;">Login Incorrecto</p>
-
-                          <button class="btn btn-info btn-block login" type="button" name="btnPrueba" on-click="prueba">Prueba</button>
                      </form>
                   </div>
         </div>              
@@ -66,12 +64,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         },
         listeners: {
-        },
-        prueba: function() {
-          console.log("ROD: Entro en prueba");
-          var urlpage = "http://" + window.location.hostname + ":" + window.location.port + "/index-blog2";
-          console.log("ROD urlpage: " + urlpage);
-          window.location.assign(urlpage);
         },
         loginUser: function() {
           var password = document.getElementsByName("passwordInput")[0].value;

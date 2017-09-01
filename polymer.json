@@ -2,9 +2,15 @@
   "entrypoint": "index.html",
   "shell": "src/my-app.html",
   "fragments": [
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
+    "src/my-index-blog.html",
+    "src/my-index-blog2.html",
+    "src/my-post-add.html",
+    "src/my-post-detail.html",
+    "src/my-post-list.html",
+    "src/my-post-listlarge.html",
+    "src/my-user-add.html",
+    "src/my-user-login.html",
+    "src/my-user-remove.html",
     "src/my-view404.html",
     "src/my-richi-micomponente.html",
     "src/my-componentemongodb.html"
