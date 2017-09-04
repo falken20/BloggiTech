@@ -38,9 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           <input name="passwordInput" type="password" placeholder="password">
                           <button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button>
                           <p><small>No account? <a href="user-add">Create one!</a></small></p>
-                          <!-- <input name="mensaje" type="text" style="border:0; background-color:white; font-size:large; font-weight:bold; color:red; text-transform:uppercase;"> -->
-                          <p name="ok" class="bg-success" style="visibility:hidden;font-size:large;font-weight:bold;">Login Correcto</p>
-                          <p name="ko" class="bg-danger" style="visibility:hidden;font-size:large;font-weight:bold;">Login Incorrecto</p>
+                          <input id="mensaje" type="text" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;text-align: center;display: none">      
                      </form>
                   </div>
         </div>              
@@ -75,7 +73,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
           peticion.send('{"nombre":"' + username + '", "password": "' + password + '"}');       
-          console.log("ROD: " + peticion.responseText);
+          console.log("ROD: responseText: " + peticion.responseText);
           var respuesta = JSON.parse(peticion.responseText);
           if (peticion.status=="200" && respuesta.data.count > 0)
           {
@@ -84,13 +82,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.login = "User: " + username;
             document.getElementsByName("usernameInput")[0].value = "";
             document.getElementsByName("passwordInput")[0].value = "";
-            document.getElementsByName("ko")[0].style.visibility = "hidden";
-            document.getElementsByName("ok")[0].style.visibility = "visible";
+            this.$$("#mensaje").style.display = "block";
+            this.$$("#mensaje").value = "Login Correcto";
           }
           else 
           {
-            document.getElementsByName("ok")[0].style.visibility = "hidden";
-            document.getElementsByName("ko")[0].style.visibility = "visible";
+            this.$$("#mensaje").style.display = "block";
+            this.$$("#mensaje").value = "Login Incorrecto";
           }
         }
       })
