@@ -75,7 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
           peticion.send('{"nombre":"' + username + '", "password": "' + password + '"}');       
-          console.log(peticion.responseText);
+          console.log("ROD: " + peticion.responseText);
           var respuesta = JSON.parse(peticion.responseText);
           if (peticion.status=="200" && respuesta.data.count > 0)
           {

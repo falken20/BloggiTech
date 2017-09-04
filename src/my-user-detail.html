@@ -1,0 +1,148 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-user-detail">
+  <template>
+    <style>
+      :host {  /* Para referenciar el estilo de mi componente */
+        display: inline-block;
+        background-color: white;
+        width: -moz-available;
+        align-items: center;
+      }
+    </style>
+
+    <div class="container">
+      <div class="container thumbnail" style="width: 400px;margin-top: 40px">
+                <div class="avatar"><img src="https://cdn2.iconfinder.com/data/icons/blue-rounded-set/154/avatar-login-round-profile-512.png" width="95px" height="95px"></div>
+                <div><span></span></div>
+                <div class="form-box">
+                    <form action="" method="">
+                        Id: <input name="idInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[id]]" disabled="disabled" >
+                        Name: <input name="usernameInput" type="text" placeholder="username" maxlength="20" size="100" style="margin-top:1px" placeholder="[[username]]" disabled="disabled">
+                        eMail: <input name="emailInput" type="text" placeholder="email" maxlength="30" data-validation="email" style="margin-top:1px" value="[[email]]">
+                        Password: <input name="passwordInput" type="password" placeholder="password" maxlength="20" style="margin-top:5px;size:60" value="[[password]]">
+                        <div style="margin-top: 10px; margin-bottom: 10px;" align="center">
+                          <button type="button" on-click="updateUser" class="btn btn-primary" style="width: 180px">Grabar</button>
+                          <button type="button" on-click="deleteUser" class="btn btn-primary" style="width: 180px">Dar Baja</button>
+                        </div>
+                    </form>
+                </div>
+                <div><span id="mensaje"></span></div>
+      </div>
+    </div>
+
+  </template>
+
+    <script>
+      Polymer({
+        is: 'my-user-detail',
+        properties: {
+          url: {
+            type: String,
+            value: "http://postgrebc9688.cloudapp.net:3000/api/usuarios"
+          },
+          arrayJSON: Array,
+          username: String,
+          email: String,
+          id:String,
+          password: String
+        },
+        listeners: {
+        },
+        ready: function() {
+          //Obtengo todos los usuarios para luego buscar del que tengo que mostrar los datos
+          var peticion = new XMLHttpRequest();
+          peticion.open("GET", this.url, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
+          peticion.send();
+          console.log("ROD: arrayJSON: " + peticion.responseText);
+          //De la respuesta cogo sólo el valor data que es el array de todos los usuarios
+          this.arrayJSON = (JSON.parse(peticion.responseText)).data;
+          this.lookJSON();
+          console.log("ROD: usuario encontrado: " + sessionStorage.getItem("id") + ", " + sessionStorage.getItem("email"));
+          this.username = sessionStorage.getItem("usuario");
+          this.email = sessionStorage.getItem("email");
+          this.id = sessionStorage.getItem("id");
+        },
+        //Función para encontrar en un array los datos del usuario logado
+        lookJSON: function() {
+          console.log("ROD: lookJSON(): Entro a recorrer JSON de longitud " + this.arrayJSON.length);
+          for(var i = 0; i < this.arrayJSON.length; i++){
+            if(this.arrayJSON[i].nombre == sessionStorage.getItem("usuario")) {
+              sessionStorage.setItem("id", this.arrayJSON[i].id);
+              sessionStorage.setItem("email", this.arrayJSON[i].email);
+              this.password = this.arrayJSON[i].password;
+            }
+          }
+        },
+        initProperties: function() {
+          this.id = "";
+          this.email = "";
+          this.username = "";
+          this.password = "";
+        },
+        updateUser: function() {
+          var username = this.username;
+          var email = document.getElementsByName("emailInput")[0].value;
+          var password = document.getElementsByName("passwordInput")[0].value;
+          console.log("ROD: Updating user -> Id: " + this.id + ", Name: " + username + ", Email: " + email + ", Password: " + password);
+          var peticion = new XMLHttpRequest();
+          var urlupdate = this.url + "/" + this.id;
+          peticion.open("PUT", urlupdate, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
+          peticion.send('{"nombre":"' + username + '", "email": "' + email + '", "password":"' + password + '"}');
+          console.log(urlupdate + ", " +  peticion.responseText);
+          var respuesta = JSON.parse(peticion.responseText);
+          var spanMensaje = this.$$("mensaje");
+          if (peticion.status=="200")
+          {
+              console.log("ROD: User " + username + " added");
+              sessionStorage.setItem("usuario", username);
+              spanMensaje.innerText = "Usuario modificado correctamente";
+          }
+          else 
+          {
+              spanMensaje.innerText = "No se pudo modificar el usuario";
+          }
+        },
+        deleteUser: function() {
+          console.log("ROD: Removing user -> Id: " + this.id);
+          var peticion = new XMLHttpRequest();
+          var urldelete = this.url + "/" + this.id;
+          peticion.open("DELETE", urldelete, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
+          peticion.send();
+          console.log(urldelete + ", " +  peticion.responseText);
+          var respuesta = JSON.parse(peticion.responseText);
+          var spanMensaje = this.$$("mensaje");
+          if (peticion.status=="200")
+          {
+              sessionStorage.removeItem("usuario");
+              sessionStorage.removeItem("id");
+              sessionStorage.removeItem("email");
+              console.log("ROD: User " + this.username + " removed");
+              this.initProperties();
+              spanMensaje.innerText = "Usuario borrado correctamente";
+          }
+          else 
+          {
+              spanMensaje.innerText = "No se pudo borrar el usuario";
+          }          
+        }
+      })
+    </script>
+</dom-module>

@@ -30,6 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="my-user-add.html">
 <link rel="lazy-import" href="my-user-login.html">
 <link rel="lazy-import" href="my-user-remove.html">
+<link rel="lazy-import" href="my-user-detail.html">
 <link rel="lazy-import" href="my-post-add.html">
 <link rel="lazy-import" href="my-post-list.html">
 <link rel="lazy-import" href="my-post-listlarge.html">
@@ -157,7 +158,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                 </ul>
                             </li>
                             -->
-                            <li><a href="user-remove" style="color:red">[[login]]</a></li>
+                            <li><a href="user-detail" style="color:red">[[login]]</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
@@ -182,8 +183,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <my-user-add name="user-add"></my-user-add>
           <my-user-login name="user-login"></my-user-login>
           <my-user-remove name="user-remove"></my-user-remove>
-
-          <my-view3 name="view3"></my-view3>
+          <my-user-detail name="user-detail"></my-user-detail>
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </app-header-layout>
