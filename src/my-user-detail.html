@@ -29,7 +29,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <div class="form-box">
                     <form action="" method="">
                         Id: <input name="idInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[id]]" disabled="disabled" >
-                        Name: <input name="usernameInput" type="text" placeholder="username" maxlength="20" size="100" style="margin-top:1px" placeholder="[[username]]" disabled="disabled">
+                        Name: <input name="usernameInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[username]]" disabled="disabled">
                         eMail: <input name="emailInput" type="text" placeholder="email" maxlength="30" data-validation="email" style="margin-top:1px" value="[[email]]">
                         Password: <input name="passwordInput" type="password" placeholder="password" maxlength="20" style="margin-top:5px;size:60" value="[[password]]">
                         <div style="margin-top: 10px; margin-bottom: 10px;" align="center">
@@ -71,7 +71,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           //De la respuesta cogo sólo el valor data que es el array de todos los usuarios
           this.arrayJSON = (JSON.parse(peticion.responseText)).data;
           this.lookJSON();
-          console.log("ROD: usuario encontrado: " + sessionStorage.getItem("id") + ", " + sessionStorage.getItem("email"));
+          console.log("ROD: usuario encontrado: " + sessionStorage.getItem("usuario") + ", " + sessionStorage.getItem("id") + ", " + sessionStorage.getItem("email"));
           this.username = sessionStorage.getItem("usuario");
           this.email = sessionStorage.getItem("email");
           this.id = sessionStorage.getItem("id");
