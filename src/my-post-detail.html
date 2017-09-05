@@ -19,40 +19,87 @@
       }
     </style>
     
-    <template is="dom-repeat" items="[[posts]]">
+    <!-- Detalle del post -->
+    <div class="container">
+      <template is="dom-repeat" items="[[posts]]">
+        <div class="container col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
+            <div class="row">
+                <h2><strong>[[item.titulo]]</strong></h2>
+            </div>
+            <div class="row">
+            <div class="span4"><img src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg';" style="width:250px;max-width:50%;height:auto;"></div>
+            <div class="span8" style="margin-top: 10px">[[item.texto]]</div>
+            </div>
+            <div class="row">
+                <p></p>
+                <p>
+                  <i class="glyphicon glyphicon-user"></i><a href="#"> [[item.nombre]]</a> 
+                  | <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]
+                  | <i class="glyphicon glyphicon-tag"></i> 
+                  <a href="#"><span class="label label-info">[[item.labels]]</span></a> 
+                </p>
+            </div>
+        </div>
+        <hr>
+      </template>
+    </div>
+
+    <!-- Comentarios del post -->
+    <div class="container">
       <div class="container col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
+        <div class="row">
+          <h2>Comentarios...</h2>
+          <div style="margin-top: 1px; margin-bottom: 10px">
+            <button type="button" id="btnAddComentario" on-click="addComentario" class="btn btn-primary">Añadir comentario</button>
+          </div>
+          <div id="formComentario" style="display: none;">
+            <p>
+              <textarea class="form-control" rows="4" id="comentario" name="comentario" value="[[item.texto]]"></textarea>
+              <i class="glyphicon glyphicon-user"></i> [[userlogado]]
+              | <i class="glyphicon glyphicon-calendar"></i> [[fechaHoy]]
+              <div>
+              <button type="button" id="btnGrabar" on-click="grabarComment" class="btn btn-primary">Grabar</button>
+              <button type="button" id="btnCancelar" on-click="cancelarComment" class="btn btn-primary">Cancelar</button>
+              </div>
+            </p>
+          </div>
+        </div>
+        <template is="dom-repeat" items="[[comments]]">
           <div class="row">
-              <h2><strong>[[item.titulo]]</strong></h2>
+            <div class="span8" style="margin-top: 10px">[[item.texto]]</div>
           </div>
           <div class="row">
-          <div class="span4"><img src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg';" style="width:250px;max-width:50%;height:auto;"></div>
-          <div class="span8" style="margin-top: 10px">[[item.texto]]</div>
-          </div>
-          <div class="row">
-              <p></p>
               <p>
                 <i class="glyphicon glyphicon-user"></i><a href="#"> [[item.nombre]]</a> 
                 | <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]
-                | <i class="glyphicon glyphicon-tag"></i> 
-                <a href="#"><span class="label label-info">[[item.labels]]</span></a> 
               </p>
           </div>
+          <hr>
+        </template>
       </div>
-      <hr>
-    </template>
+    </div>
+
 
   </template>
     <script>
       Polymer({
         is: 'my-post-detail',
         properties: {
-          url: {
+          urlposts: {
             type: String,
             value: "https://api.mlab.com/api/1/databases/dbbootcamp/collections/posts"
           },
-          paramsUrl: {
+          urlcomments: {
+            type: String,
+            value: "https://api.mlab.com/api/1/databases/dbbootcamp/collections/comments"
+          },        
+          paramsurlposts: {
             type: String,
             value: "q={'_id':{'$oid':"
+          },
+          paramsurlcomments: {
+            type: String,
+            value: "s={'fecha': -1}&l=10&q={'idpost':"
           },
           apiKey: {
             type: String,
@@ -62,28 +109,84 @@
             type: Array,
             notify: true, //Automáticamente refresca cuando cambia algo...(se supone)
           },
+          comments: {
+            type: Array,
+            notify: true, //Automáticamente refresca cuando cambia algo...(se supone)
+          },
           postId: {
             type: String,
             value: "NoLogado"
-          }
+          },
+          userlogado: String,
+          fechaHoy: Date
         },
         listeners: {
         },
         ready: function() {
           this.postId = sessionStorage.getItem("postId");
+          this.userlogado = sessionStorage.getItem("usuario");
+          this.obtenerFecha();
+          if (this.userlogado == null) { this.userlogado = "Anonimo" };
           console.log("ROD: Id post a visualizar " + this.postId);          
           this.obtenerPost();
+          this.obtenerComments();
         },
         obtenerPost: function () {
           var peticion = new XMLHttpRequest();
-          var urlListPosts = this.url + "?" + this.paramsUrl + "'" + this.postId + "'}}&" + this.apiKey;
+          var urlListPosts = this.urlposts + "?" + this.paramsurlposts + "'" + this.postId + "'}}&" + this.apiKey;
           console.log("ROD urlListPosts: " + urlListPosts);
           peticion.open("GET", urlListPosts, false);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.send();
+          console.log("ROD: " + peticion.responseText);
           this.posts = JSON.parse(peticion.responseText);
           sessionStorage["postDetalle"] = peticion.responseText;
-          console.log("ROD: " + peticion.responseText);
+        },
+        obtenerComments: function() {
+          var peticion = new XMLHttpRequest();
+          var urlListComments = this.urlcomments + "?" + this.paramsurlcomments + "'" + this.postId + "'}}&" + this.apiKey;
+          console.log("ROD urlListComments: " + urlListComments);
+          peticion.open("GET", urlListComments, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send();
+          console.log("ROD: " + peticion.responseText);          
+          this.comments = JSON.parse(peticion.responseText);
+        },
+        addComentario: function() {
+          this.$$("#formComentario").style.display = "block";          
+        },
+        cancelarComment: function() {
+          this.$$("#formComentario").style.display = "none";
+        },
+        grabarComment: function() {
+          var comentario = document.getElementsByName("comentario")[0].value;
+          console.log("ROD: JSON: " + '{"idpost":"' + this.postId + '", "texto":"' + comentario + '", "nombre":"' + this.userlogado + '", "fecha": "' + this.fechaHoy + '"}');
+          var peticion = new XMLHttpRequest();
+          peticion.open("POST", this.urlcomments + "?" + this.apiKey, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send('{"idpost":"' + this.postId + '", "texto":"' + comentario + '", "nombre":"' + this.userlogado + '", "fecha": "' + this.fechaHoy + '"}');
+          console.log("ROD: responseText: " + peticion.responseText)
+          var respuesta = JSON.parse(peticion.responseText);
+          if (peticion.status=="200")
+          {
+            console.log("Comentario añadido correctamente");
+            this.$$("#formComentario").style.display = "none";
+            this.obtenerComments();
+          }
+          else 
+          {
+            console.log("Error al grabar el comentario");
+            this.$$("#formComentario").style.display = "none";
+          }          
+        },
+        obtenerFecha: function() {
+          var f = new Date();
+          var mes = f.getMonth() + 1;
+          this.fechaHoy = f.getFullYear() + "/" 
+          if (mes < 10) { this.fechaHoy += "0" + mes + "/" }
+          else { this.fechaHoy += mes + "/" }
+          if (f.getDate() < 10) { this.fechaHoy += "0" + f.getDate() }
+          else { this.fechaHoy += f.getDate() }
         }
       })
     </script>

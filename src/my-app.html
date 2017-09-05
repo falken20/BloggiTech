@@ -34,7 +34,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="my-post-add.html">
 <link rel="lazy-import" href="my-post-list.html">
 <link rel="lazy-import" href="my-post-listlarge.html">
-<link rel="lazy-import" href="my-post-detail.html">
+<link rel="lazy-import" href="my-post-listlarge.html">
+<link rel="lazy-import" href="my-post-list-consulta.html">
 
 <link rel="lazy-import" href="my-view3.html">
 <link rel="lazy-import" href="my-view404.html">
@@ -179,6 +180,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <my-post-add name="post-add"></my-post-add>
           <my-post-list name="post-list"></my-post-list>
           <my-post-listlarge name="post-listlarge"></my-post-listlarge>
+          <my-post-list-consulta name="post-list-consulta"></my-post-list-consulta>
           <my-post-detail name="post-detail"></my-post-detail>
           <my-user-add name="user-add"></my-user-add>
           <my-user-login name="user-login"></my-user-login>
@@ -251,6 +253,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(page) {
+        console.log("ROD objeto dom: " + this.page);
         // Load page import on demand. Show 404 page if fails
         var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
         Polymer.importHref(

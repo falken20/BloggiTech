@@ -8,6 +8,7 @@
     "src/my-post-detail.html",
     "src/my-post-list.html",
     "src/my-post-listlarge.html",
+    "src/my-post-list-consulta.html",
     "src/my-user-add.html",
     "src/my-user-login.html",
     "src/my-user-remove.html",

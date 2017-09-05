@@ -86,6 +86,8 @@
     </div>
   </template>
 
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.82.0.min.js" async></script>
+
     <script>
       Polymer({
         is: 'my-post-add',
@@ -111,10 +113,11 @@
           aws_url_api2: {type: String, value: "https://bucket_posts.execute-api.eu-west-1.amazonaws.com"},
           aws_url_api3: {type: String, value: "https://bucket_posts.eu-west-1.amazonaws.com"},
           aws_url_host: {type: String, value: "https://bucket_posts.s3.amazonaws.com"},
-          aws_access_key: {type: String, value: "AKIAIYNHHZYMZDQLRQ7A"}, //En Amazon Security Credentials
-          aws_secret_key: {type: String, value: ""},
+          aws_access_key: {type: String, value: "AKIAIFZDSNDA4V6YMJEQ"}, //En Amazon Security Credentials
+          aws_secret_access_key: {type: String, value: "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"},
           aws_bucket: {type: String, value:"bucket-posts"},
-          aws_url_foto: {type: String, value:"https://s3-eu-west-1.amazonaws.com/bucket-posts/"}
+          aws_url_foto: {type: String, value:"https://s3-eu-west-1.amazonaws.com/bucket-posts/"},
+          aws_region: {type: String, value: "eu-west-1"}
         },
         listeners: {
           'tap': 'handleClick'
@@ -141,8 +144,14 @@
           var texto = document.getElementsByName("texto")[0].value;
           var fecha = document.getElementsByName("fecha")[0].value;
           var labels = document.getElementsByName("labels")[0].value;
-          var urlfoto = document.getElementsByName("urlfoto")[0].value;
+          var urlfoto = this.aws_url_foto + document.getElementsByName("files")[0].files[0].name;
+
           console.log("ROD: JSON: " + '{"titulo":"' + titulo + '", "texto":"' + texto + '", "nombre":"' + this.userlogado + '", "fecha": "' + fecha + '", "labels": "' + labels + '", "urlfoto": "' + urlfoto + '"}');
+
+          //Subimos fichero a Amazon S3
+          console.log("ROD: Empezamos a subir fichero a AmazonS3");
+          this.uploadS3Amazon();
+
           var peticion = new XMLHttpRequest();
           peticion.open("POST", this.url + this.apiKey, false);
           peticion.setRequestHeader("Content-Type", "application/json");
@@ -166,6 +175,7 @@
           this.userlogado = sessionStorage.getItem("usuario");
           console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
           if (this.userlogado == null) {
+            //PAra referirse a componentes con un determinado id
             this.$$("#formpost").style.display = "none";
             this.$$("#formlogin").style.display = "block";
           } else {
@@ -180,29 +190,24 @@
           var file = document.getElementsByName("files")[0].files[0];
           //file = document.getElementsByName("files")[0].files[0];
           console.log("ROD: IMAGEN.type: " + file.type);
-          console.log("ROD: IMAGEN: " + file);
+          console.log("ROD: IMAGEN: " + file.name);
 
-          var peticion = new XMLHttpRequest();
-          peticion.open("POST", this.aws_url_api, false);
-          peticion.setRequestHeader("Content-Type", file.type);
-          peticion.send(file);
-          console.log("ROD: responseText: " + peticion.responseText);
-
-          /*
-          var respuesta = JSON.parse(peticion.responseText);
-          if (peticion.status=="200")
-          {
-              console.log("Post añadido");
-              this.$$("#mensaje").style.display = "block";
-              this.$$("#mensaje").value = "Post añadido correctamente";
-          }
-          else 
-          {
-              console.log("Error al grabar el post");
-              this.$$("#mensaje").style.display = "block";
-              this.$$("#mensaje").value = "Error al grabar el Post";
-          } 
-          */                  
+          //Empezamos a usar API Amazon S3
+          AWS.config = new AWS.Config();
+          AWS.config.accessKeyId = this.aws_access_key;
+          AWS.config.secretAccessKey = this.aws_secret_access_key;
+          AWS.config.region = this.aws_region;
+          var s3 = new AWS.S3();
+          var params = {
+            Body: file, 
+            Bucket: this.aws_bucket, 
+            Key: file.name,
+            ACL: "public-read"
+          };
+          s3.putObject(params, function(err, data) {
+             if (err) console.log("ROD: Error al subir a Amazon", err, err.stack); 
+             else     console.log("ROD: Fichero subido correctamente a Amazon:", data);
+          });                
         }
       })
     </script>

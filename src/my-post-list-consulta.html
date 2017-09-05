@@ -1,0 +1,106 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<!-- Añadimos compoenente que viene para en linea inferior para sacar array (    <template is="dom-repeat" items="...)-->
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+
+<dom-module id="my-post-list-consulta">
+  <template>
+    <style>
+      :host {  /* Para referenciar el estilo de mi componente */
+        display: inline-block;
+        background-color: white;
+        width: -moz-available;
+        align-items: center;
+      }
+      .container{
+          margin-top:40px;
+      }
+    </style>
+
+    <div class="container">
+      <div class="row">
+        <template is="dom-repeat" items="[[posts]]">
+
+        <div class="thumbnail">
+
+          <div id="form_con_[[item._id.$oid]]" style='display:block;'>
+            <div class="row">
+              <div class="col-xs-12 col-sm-3 col-md-3">
+                  <img src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg';" style="width:250px;height:160px;" class="img-responsive img-box img-thumbnail"> 
+              </div> 
+              <div class="col-xs-12 col-sm-9 col-md-9" style="margin-top: 5px">
+                  <h4>[[item.titulo]]</h4>
+                  <p>
+                    <i class="glyphicon glyphicon-user"></i> [[item.nombre]]
+                    | <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]
+                    | <i class="glyphicon glyphicon-tag"></i> 
+                    <span class="label label-info">[[item.labels]]</span>
+                  </p>
+                  <p>[[item.texto]]</p> 
+              </div> 
+            </div>
+          </div>
+        </div>
+
+        </template>
+      </div>
+    </div>
+
+  </template>
+    <script>
+      Polymer({
+        is: 'my-post-list-consulta',
+        properties: {
+          url: {
+            type: String,
+            value: "https://api.mlab.com/api/1/databases/dbbootcamp/collections/posts"
+          },
+          paramsUrl: {
+            type: String,
+            value: "s={'fecha': -1}"
+          },
+          apiKey: {
+            type: String,
+            value: "apiKey=CQjEP7tpIq0_e_u0XbMU2o1Xgt8fgB74"
+          },
+          posts: {
+            type: Array,
+            notify: true, //Automáticamente refresca cuando cambia algo...(se supone)
+          },
+          userlogado: {
+            type: String,
+            value: "NoLogado"
+          }
+        },
+        listeners: {
+        },
+        ready: function() {
+          this.userlogado = sessionStorage.getItem("usuario");
+          console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
+          this.obtenerPostsUsuario();
+        },
+        obtenerPostsUsuario: function () {
+          var peticion = new XMLHttpRequest();
+          var urlListPosts = this.url + "?" + this.paramsUrl + "&" + this.apiKey;
+          console.log("ROD urlListPosts: " + urlListPosts);
+          peticion.open("GET", urlListPosts, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send();
+          this.posts = JSON.parse(peticion.responseText);
+          sessionStorage["posts"] = peticion.responseText;
+          console.log("ROD: " + peticion.responseText);
+        },
+        modificarPost: function(e) {
+          //El parametro 'e' se corresponde con el objeto que llama al metodo
+          this.$$("#form_mod_" + e.target.id).style.display = "block";
+          this.$$("#form_con_" + e.target.id).style.display = "none";
+        },
+        cancelarPost: function(e) {
+          //El parametro 'e' se corresponde con el objeto que llama al metodo
+          this.$$("#form_mod_" + e.target.id).style.display = "none";
+          this.$$("#form_con_" + e.target.id).style.display = "block";
+        }
+      })
+    </script>
+</dom-module>
