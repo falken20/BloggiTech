@@ -24,17 +24,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div class="container">
       <div class="container thumbnail" style="width: 400px;margin-top: 40px">
-                <div class="avatar"><img src="https://cdn2.iconfinder.com/data/icons/blue-rounded-set/154/avatar-login-round-profile-512.png" width="95px" height="95px"></div>
+                <div class="avatar"><img src="images/avatar.png" width="95px" height="95px"></div>
                 <div><span></span></div>
                 <div class="form-box">
                     <form action="" method="">
                         Id: <input name="idInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[id]]" disabled="disabled" >
                         Name: <input name="usernameInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[username]]" disabled="disabled">
                         eMail: <input name="emailInput" type="text" placeholder="email" maxlength="30" data-validation="email" style="margin-top:1px" value="[[email]]">
-                        Password: <input name="passwordInput" type="password" placeholder="password" maxlength="20" style="margin-top:5px;size:60" value="[[password]]">
+                        Password: <input name="passwordInput" type="password" placeholder="password" maxlength="20" style="margin-top:5px;size:60" value="[[password]]">                        
                         <div style="margin-top: 10px; margin-bottom: 10px;" align="center">
-                          <button type="button" on-click="updateUser" class="btn btn-primary" style="width: 180px">Grabar</button>
-                          <button type="button" on-click="deleteUser" class="btn btn-primary" style="width: 180px">Dar Baja</button>
+                          <div class="form-group">
+                            <input id="mensaje" type="text" class="form-control" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;text-align: center;display: none">      
+                          </div>
+                          <button type="button" on-click="updateUser" class="btn btn-primary" style="width: auto;">Grabar</button>
+                          <button type="button" on-click="deleteUser" class="btn btn-danger" style="width: auto;">Dar Baja</button>
+                          <button type="button" on-click="closeSession" class="btn btn-warning" style="width: auto;">Cerrar Sesión</button>
                         </div>
                     </form>
                 </div>
@@ -142,7 +146,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           {
               spanMensaje.innerText = "No se pudo borrar el usuario";
           }          
-        }
+        },
+        closeSession: function() {
+          sessionStorage.removeItem("usuario");
+          sessionStorage.removeItem("id");
+          sessionStorage.removeItem("email");
+          console.log("ROD: Session closed for user " + this.username);
+          this.initProperties();
+          this.$$("mensaje").innerText = "Sesión cerrada correctamente";        }
       })
     </script>
 </dom-module>
