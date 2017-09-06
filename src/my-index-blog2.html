@@ -20,8 +20,18 @@
       }
     </style>
 
+    <div class="container" id="loading" style="margin-top: 40px">
+      <div class="row">
+                <div id="loading">
+                    <ul class="bokeh">
+                        <li>BloggiTech</li>
+                        <li></li>
+                    </ul>
+                </div>
+      </div>
+    </div>
 
-    <section class="publicaciones-blog-home">
+    <section class="publicaciones-blog-home" id="home" style="display:none;">
           <div class="container">
             <div class="">
               <div class="row-page row">
@@ -127,6 +137,8 @@
           this.postsHead = JSON.parse(this.postsHead);
           this.posts.splice(0,2); //Borro los dos post que van en la cabecera en postHead
           console.log("ROD posts: " + peticion.responseText);
+          this.$$("#loading").style.display = "none";
+          this.$$("#home").style.display = "block";
         },
         obtenerPosts: function() {
           var peticion = new XMLHttpRequest();

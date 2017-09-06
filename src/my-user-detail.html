@@ -29,20 +29,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <div class="form-box">
                     <form action="" method="">
                         Id: <input name="idInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[id]]" disabled="disabled" >
-                        Name: <input name="usernameInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[username]]" disabled="disabled">
+                        Name: <input name="usernameInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[login]]" disabled="disabled">
                         eMail: <input name="emailInput" type="text" placeholder="email" maxlength="30" data-validation="email" style="margin-top:1px" value="[[email]]">
                         Password: <input name="passwordInput" type="password" placeholder="password" maxlength="20" style="margin-top:5px;size:60" value="[[password]]">                        
                         <div style="margin-top: 10px; margin-bottom: 10px;" align="center">
                           <div class="form-group">
                             <input id="mensaje" type="text" class="form-control" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;text-align: center;display: none">      
                           </div>
-                          <button type="button" on-click="updateUser" class="btn btn-primary" style="width: auto;">Grabar</button>
-                          <button type="button" on-click="deleteUser" class="btn btn-danger" style="width: auto;">Dar Baja</button>
-                          <button type="button" on-click="closeSession" class="btn btn-warning" style="width: auto;">Cerrar Sesión</button>
+                          <button type="button" on-click="updateUser" class="btn btn-primary" style="width: auto;min-width: 100px">Grabar</button>
+                          <button type="button" on-click="deleteUser" class="btn btn-danger" style="width: auto;min-width: 100px">Dar Baja</button>
+                          <button type="button" on-click="closeSession" class="btn btn-warning" style="width: auto;min-width: 100px">Cerrar Sesión</button>
                         </div>
                     </form>
                 </div>
-                <div><span id="mensaje"></span></div>
       </div>
     </div>
 
@@ -57,7 +56,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             value: "http://postgrebc9688.cloudapp.net:3000/api/usuarios"
           },
           arrayJSON: Array,
-          username: String,
+          login: {
+            type: String,
+            //computed: 'funcion()',
+            notify: true            
+          },
           email: String,
           id:String,
           password: String
@@ -76,9 +79,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.arrayJSON = (JSON.parse(peticion.responseText)).data;
           this.lookJSON();
           console.log("ROD: usuario encontrado: " + sessionStorage.getItem("usuario") + ", " + sessionStorage.getItem("id") + ", " + sessionStorage.getItem("email"));
-          this.username = sessionStorage.getItem("usuario");
+          this.login = sessionStorage.getItem("usuario");
           this.email = sessionStorage.getItem("email");
           this.id = sessionStorage.getItem("id");
+          console.log(this.password);
         },
         //Función para encontrar en un array los datos del usuario logado
         lookJSON: function() {
@@ -94,11 +98,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         initProperties: function() {
           this.id = "";
           this.email = "";
-          this.username = "";
+          this.login = "";
           this.password = "";
         },
         updateUser: function() {
-          var username = this.username;
+          var username = this.login;
           var email = document.getElementsByName("emailInput")[0].value;
           var password = document.getElementsByName("passwordInput")[0].value;
           console.log("ROD: Updating user -> Id: " + this.id + ", Name: " + username + ", Email: " + email + ", Password: " + password);
@@ -115,11 +119,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           {
               console.log("ROD: User " + username + " added");
               sessionStorage.setItem("usuario", username);
-              spanMensaje.innerText = "Usuario modificado correctamente";
+              this.$$("#mensaje").style.display = "block";
+              this.$$("#mensaje").value = "Usuario modificado correctamente";
           }
           else 
           {
-              spanMensaje.innerText = "No se pudo modificar el usuario";
+              this.$$("#mensaje").style.display = "block";
+              this.$$("#mensaje").value = "No se pudo modificar el usuario";
           }
         },
         deleteUser: function() {
@@ -138,9 +144,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               sessionStorage.removeItem("usuario");
               sessionStorage.removeItem("id");
               sessionStorage.removeItem("email");
-              console.log("ROD: User " + this.username + " removed");
+              console.log("ROD: User " + this.login + " removed");
               this.initProperties();
-              spanMensaje.innerText = "Usuario borrado correctamente";
+              this.$$("#mensaje").style.display = "block";
+              this.$$("#mensaje").value = "Usuario borrado correctamente";
           }
           else 
           {
@@ -151,9 +158,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           sessionStorage.removeItem("usuario");
           sessionStorage.removeItem("id");
           sessionStorage.removeItem("email");
-          console.log("ROD: Session closed for user " + this.username);
+          console.log("ROD: Session closed for user " + this.login);
           this.initProperties();
-          this.$$("mensaje").innerText = "Sesión cerrada correctamente";        }
+          this.$$("#mensaje").style.display = "block";
+          this.$$("#mensaje").value = "Sesión cerrada correctamente";
+        }
       })
     </script>
 </dom-module>

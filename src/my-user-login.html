@@ -28,6 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <p><small>Only Tech</small></p>
       </div>
     </div>
+    
     <div class="col-sm-6 col-md-6">
         <div class="login-container">
                   <div id="output"></div>
@@ -57,7 +58,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           login: {
             type: String,
             //computed: 'funcion()',
-            readOnly: true,
             notify: true            
           }
         },
@@ -66,29 +66,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         loginUser: function() {
           var password = document.getElementsByName("passwordInput")[0].value;
           var username = document.getElementsByName("usernameInput")[0].value;
-          console.log("ROD: username:" + username);
-          console.log("ROD: password:" + password);
-          var peticion = new XMLHttpRequest();
-          peticion.open("POST", this.url, false);
-          peticion.setRequestHeader("Content-Type", "application/json");
-          peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
-          peticion.send('{"nombre":"' + username + '", "password": "' + password + '"}');       
-          console.log("ROD: responseText: " + peticion.responseText);
-          var respuesta = JSON.parse(peticion.responseText);
-          if (peticion.status=="200" && respuesta.data.count > 0)
-          {
-            console.log("ROD: User " + username + " logged");
-            sessionStorage.setItem("usuario", username);
-            this.login = "User: " + username;
-            document.getElementsByName("usernameInput")[0].value = "";
-            document.getElementsByName("passwordInput")[0].value = "";
-            this.$$("#mensaje").style.display = "block";
-            this.$$("#mensaje").value = "Login Correcto";
-          }
-          else 
-          {
-            this.$$("#mensaje").style.display = "block";
-            this.$$("#mensaje").value = "Login Incorrecto";
+          if (password == "" || username == "") {
+            alert("Debe rellenar ambos campos");
+          } else {
+            console.log("ROD: username:" + username);
+            console.log("ROD: password:" + password);
+            var peticion = new XMLHttpRequest();
+            peticion.open("POST", this.url, false);
+            peticion.setRequestHeader("Content-Type", "application/json");
+            peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
+            peticion.send('{"nombre":"' + username + '", "password": "' + password + '"}');       
+            console.log("ROD: responseText: " + peticion.responseText);
+            var respuesta = JSON.parse(peticion.responseText);
+            if (peticion.status=="200" && respuesta.data.count > 0)
+            {
+              console.log("ROD: User " + username + " logged");
+              sessionStorage.setItem("usuario", username);
+              this.login = "User: " + username;
+              document.getElementsByName("usernameInput")[0].value = "";
+              document.getElementsByName("passwordInput")[0].value = "";
+              this.$$("#mensaje").style.display = "block";
+              this.$$("#mensaje").value = "Login Correcto";
+            }
+            else 
+            {
+              this.$$("#mensaje").style.display = "block";
+              this.$$("#mensaje").value = "Login Incorrecto";
+            }
           }
         }
       })

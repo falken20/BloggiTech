@@ -25,17 +25,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class="container">
       <div class="container thumbnail" style="width: 500px;margin-top: 40px">
                 <div id="output"></div>
-                <div class="avatar"><img src="https://cdn2.iconfinder.com/data/icons/blue-rounded-set/154/avatar-login-round-profile-512.png" width="95px" height="95px"></div>
+                <div class="avatar"><img src="images/avatar.png" width="95px" height="95px"></div>
                 <div><span></span></div>
                 <div class="form-box">
                     <form action="" method="">
                         Name: <input name="usernameInput" type="text" placeholder="username" maxlength="20" size="100" style="margin-top:1px">
                         eMail: <input name="emailInput" type="text" placeholder="email" maxlength="30" data-validation="email" style="margin-top:1px">
                         Password: <input name="passwordInput" type="password" placeholder="password" maxlength="20" style="margin-top:5px;size:60">
-                        <button class="btn btn-info btn-block login" type="button" name="btnAddNewUser" on-click="addNewUser">Register</button>
+                        <div class="form-group">
+                          <input id="mensaje" type="text" class="form-control" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;text-align: center;display: none">      
+                        </div>                        
+                        <button class="btn btn-info btn-block login" type="button" name="btnAddNewUser" on-click="addNewUser">Registrar usuario</button>
                     </form>
                 </div>
-                <div><span id="mensaje"></span></div>
       </div>
     </div>
   </template>
@@ -47,7 +49,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           url: {
             type: String,
             value: "http://postgrebc9688.cloudapp.net:3000/api/usuarios"
-          }
+          },
+          login: {
+            type: String,
+            //computed: 'funcion()',
+            notify: true            
+          }          
         },
         listeners: {
         },
@@ -55,11 +62,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var username = document.getElementsByName("usernameInput")[0].value;
           var email = document.getElementsByName("emailInput")[0].value;
           var password = document.getElementsByName("passwordInput")[0].value;
-          console.log("ROD: Adding user -> Name: " + username + ", Email: " + email + ", Password: " + password);
           var peticion = new XMLHttpRequest();
           peticion.open("POST", this.url, false);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
+          console.log('ROD: Adding user -> {"nombre":"' + username + '", "email": "' + email + '", "password":"' + password + '"}');
           peticion.send('{"nombre":"' + username + '", "email": "' + email + '", "password":"' + password + '"}');
           var spanMensaje = document.getElementById("mensaje");
           var respuesta = JSON.parse(peticion.responseText);
@@ -67,11 +74,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           {
               console.log("ROD: User " + username + " added");
               sessionStorage.setItem("usuario", username);
-              spanMensaje.innerText = "Usuario creado correctamente";
+              this.login = username;
+              this.$$("#mensaje").style.display = "block";
+              this.$$("#mensaje").value = "Usuario creado correctamente";
           }
           else 
           {
-              spanMensaje.innerText = "No se pudo crear el usuario";
+              this.$$("#mensaje").style.display = "block";
+              this.$$("#mensaje").value = "No se pudo crear el usuario";
           }
         }
       })
