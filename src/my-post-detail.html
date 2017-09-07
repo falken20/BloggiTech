@@ -14,15 +14,27 @@
         align-items: center;
       }
       .container{
-          margin-top:40px;
+          margin-top:10px;
           align-items: center;
       }
     </style>
-    
-    <!-- Detalle del post -->
-    <div class="container">
-      <template is="dom-repeat" items="[[posts]]">
-        <div class="container col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
+
+    <div class="container" id="loading" style="margin-top: 100px">
+      <div class="row">
+                <div id="loading">
+                    <ul class="bokeh">
+                        <li></li>
+                        <li></li>
+                        <li>BloggiTech</li>
+                    </ul>
+                </div>
+      </div>
+    </div>
+
+    <div id="detalle" style="display:none;">
+      <!-- Detalle del post -->
+      <div class="container col-md-6 col-sm-12 col-lg-6 col-md-offset-3" id="detallePost">
+        <template is="dom-repeat" items="[[posts]]">
             <div class="row">
                 <h2><strong>[[item.titulo]]</strong></h2>
             </div>
@@ -39,14 +51,11 @@
                   <a href="#"><span class="label label-info">[[item.labels]]</span></a> 
                 </p>
             </div>
-        </div>
-        <hr>
-      </template>
-    </div>
+        </template>
+      </div>
 
-    <!-- Comentarios del post -->
-    <div class="container">
-      <div class="container col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
+      <!-- Comentarios del post -->
+      <div class="container col-md-6 col-sm-12 col-lg-6 col-md-offset-3" id="comentarios">
         <div class="row">
           <h2>Comentarios...</h2>
           <div style="margin-top: 1px; margin-bottom: 10px">
@@ -77,6 +86,7 @@
           <hr>
         </template>
       </div>
+
     </div>
 
 
@@ -130,11 +140,13 @@
           console.log("ROD: Id post a visualizar " + this.postId);          
           this.obtenerPost();
           this.obtenerComments();
+          this.$$("#loading").style.display = "none";
+          this.$$("#detalle").style.display = "block";
         },
         obtenerPost: function () {
           var peticion = new XMLHttpRequest();
           var urlListPosts = this.urlposts + "?" + this.paramsurlposts + "'" + this.postId + "'}}&" + this.apiKey;
-          console.log("ROD urlListPosts: " + urlListPosts);
+          console.log("ROD: urlListPosts: " + urlListPosts);
           peticion.open("GET", urlListPosts, false);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.send();
@@ -145,7 +157,7 @@
         obtenerComments: function() {
           var peticion = new XMLHttpRequest();
           var urlListComments = this.urlcomments + "?" + this.paramsurlcomments + "'" + this.postId + "'}}&" + this.apiKey;
-          console.log("ROD urlListComments: " + urlListComments);
+          console.log("ROD: urlListComments: " + urlListComments);
           peticion.open("GET", urlListComments, false);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.send();
@@ -169,13 +181,13 @@
           var respuesta = JSON.parse(peticion.responseText);
           if (peticion.status=="200")
           {
-            console.log("Comentario añadido correctamente");
+            console.log("ROD: Comentario añadido correctamente");
             this.$$("#formComentario").style.display = "none";
             this.obtenerComments();
           }
           else 
           {
-            console.log("Error al grabar el comentario");
+            console.log("ROD: Error al grabar el comentario");
             this.$$("#formComentario").style.display = "none";
           }          
         },

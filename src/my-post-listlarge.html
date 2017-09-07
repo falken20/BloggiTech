@@ -109,7 +109,7 @@
         obtenerPostsUsuario: function () {
           var peticion = new XMLHttpRequest();
           var urlListPosts = this.url + "?" + this.paramsUrl + "'" + this.userlogado + "'}&" + this.apiKey;
-          console.log("ROD urlListPosts: " + urlListPosts);
+          console.log("ROD: urlListPosts: " + urlListPosts);
           peticion.open("GET", urlListPosts, false);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.send();

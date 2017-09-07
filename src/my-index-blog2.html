@@ -24,8 +24,9 @@
       <div class="row">
                 <div id="loading">
                     <ul class="bokeh">
-                        <li>BloggiTech</li>
                         <li></li>
+                        <li></li>
+                        <li>BloggiTech</li>
                     </ul>
                 </div>
       </div>
@@ -133,10 +134,10 @@
           this.postsHead += '{"_id":' + '"' + this.posts[1]._id.$oid + '", "titulo":' + '"' + this.posts[1].titulo + '", "urlfoto":' +  '"' + this.posts[1].urlfoto + '" } ]';
           //this.postsHead = '[{"titulo":' + '"' + this.posts[0].titulo + '", "urlfoto":' +  '"' + this.posts[0].urlfoto + '" },';
           //this.postsHead += '{"titulo":' + '"' + this.posts[1].titulo + '", "urlfoto":' +  '"' + this.posts[1].urlfoto + '" } ]';
-          console.log("ROD postsHead: " + this.postsHead);
+          console.log("ROD: postsHead: " + this.postsHead);
           this.postsHead = JSON.parse(this.postsHead);
           this.posts.splice(0,2); //Borro los dos post que van en la cabecera en postHead
-          console.log("ROD posts: " + peticion.responseText);
+          console.log("ROD: posts: " + peticion.responseText);
           this.$$("#loading").style.display = "none";
           this.$$("#home").style.display = "block";
         },

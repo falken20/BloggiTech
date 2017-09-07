@@ -60,14 +60,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var name = document.getElementsByName("nameInput")[0].value;
           var email = document.getElementsByName("emailInput")[0].value;
           var password = document.getElementsByName("passwordInput")[0].value;
-          console.log("Removing user ID: " + id + ", Name: " + name + ", Email: " + email + ", Password: " + password);
+          console.log("ROD: Removing user ID: " + id + ", Name: " + name + ", Email: " + email + ", Password: " + password);
           var peticion = new XMLHttpRequest();
           var urlDelete = this.url + "/" + id;
           peticion.open("DELETE", urlDelete, true);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.send();
           //peticion.send('{"nombre":"' + name + '", "email": "' + email + '", "password":"' + password + '"}');
-          console.log("User " + id + " removed");
+          console.log("ROD: User " + id + " removed");
         }
       })
     </script>

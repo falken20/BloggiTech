@@ -4,7 +4,7 @@
 <!-- Añadimos compoenente que viene para en linea inferior para sacar array (    <template is="dom-repeat" items="...)-->
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 
-<dom-module id="my-post-list-consulta">
+<dom-module id="my-post-listlarge-consulta">
   <template>
     <style>
       :host {  /* Para referenciar el estilo de mi componente */
@@ -18,8 +18,6 @@
       }
     </style>
 
-    <page-er perpage="5"></page-er>
-    
     <div class="container">
         <div class="row"> 
           <div class="col-xs-12 col-sm-12 col-md-12" align="right">      
@@ -31,31 +29,26 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="max-width: 80%">
       <div class="row">
         <template is="dom-repeat" items="[[posts]]">
 
-        <div class="thumbnail">
 
-          <div id="form_con_[[item._id.$oid]]" style='display:block;'>
-            <div class="row">
-              <div class="col-xs-12 col-sm-3 col-md-3">
-                  <img src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg';" style="width:250px;height:160px;" class="img-responsive img-box img-thumbnail"> 
-              </div> 
-              <div class="col-xs-12 col-sm-9 col-md-9" style="margin-top: 5px">
-                  <h4>[[item.titulo]]</h4>
-                  <p>
-                    <i class="glyphicon glyphicon-user"></i> [[item.nombre]]
-                    | <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]
-                    | <i class="glyphicon glyphicon-tag"></i> 
-                    <span class="label label-info">[[item.labels]]</span>
-                  </p>
-                  <p>[[item.texto]]</p> 
-              </div> 
-            </div>
+          <div class="col-sm-6 col-md-6" id="form_con_[[item._id.$oid]]" style='display:block;'>
+              <div class="thumbnail">
+                  <img src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg'">
+                  <div class="caption">
+                      <h3>[[item.titulo]]</h3>
+                      <p>
+                        <i class="glyphicon glyphicon-user"></i><a href="user-detail"> [[item.nombre]]</a> 
+                        | <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]
+                        | <i class="glyphicon glyphicon-tag"></i> 
+                        <span class="label label-info">[[item.labels]]</span> 
+                      </p>
+                      <p class="post--extended__excerpt invisible--xs visible--md" style="margin-top:10px">[[item.texto]]</p>
+                  </div>
+              </div>
           </div>
-        </div>
-
         </template>
       </div>
     </div>
@@ -63,7 +56,7 @@
   </template>
     <script>
       Polymer({
-        is: 'my-post-list-consulta',
+        is: 'my-post-listlarge-consulta',
         properties: {
           url: {
             type: String,

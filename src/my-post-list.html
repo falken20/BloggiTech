@@ -19,15 +19,6 @@
     </style>
 
     <div class="container">
-        <div class="row" align="right"> 
-          <div class="col-xs-12 col-sm-12 col-md-12">      
-            <a href="post-list"><i class="glyphicon glyphicon-th-list" style="font-size: 20px"></i></a>
-            <a href="post-listlarge"><i class="glyphicon glyphicon-th-large" style="font-size: 20px"></i></a>
-          </div>
-        </div>
-    </div>
-
-    <div class="container">
       <div class="row">
         <template is="dom-repeat" items="[[posts]]">
 
@@ -65,15 +56,20 @@
                       </a>
                   </div> 
                   <div class="col-xs-12 col-sm-9 col-md-9">
-                      <h4><input id="titulo" name="titulo" class="form-control" type="text" data-validation="required" value="[[item.titulo]]"></h4>
+                      <input id="id_[[item._id.$oid]]" name="id" class="form-control" type="text" value="[[item._id.$oid]]" style="display:none;">
+                      <h4><input id="titulo_[[item._id.$oid]]" name="titulo" class="form-control" type="text" data-validation="required" value="[[item.titulo]]"></h4>
                       <p>
                         <i class="glyphicon glyphicon-user"></i> [[item.nombre]]
                         | <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]
                         | <i class="glyphicon glyphicon-tag"></i> 
-                        <input id="labels" name="labels" type="text" value="[[item.labels]]" style="size: 30">
+                        <input id="labels_[[item._id.$oid]]" name="labels" type="text" value="[[item.labels]]" style="size: 30">
                       </p>
-                      <p><textarea class="form-control" rows="4" id="texto" name="texto" value="[[item.texto]]"></textarea></p>
-                  </div> 
+                      <p><textarea class="form-control" rows="4" id="texto_[[item._id.$oid]]" name="texto" value="[[item.texto]]"></textarea></p>
+                  </div>
+                  <div style="display: none;">
+                    <input id="fecha_[[item._id.$oid]]" name="fecha" class="form-control" value="[[item.fecha]]">
+                    <input id="urlfoto_[[item._id.$oid]]" name="urlfoto" class="form-control" type="text" value="[[item.urlfoto]]">
+                  </div>
               </div>
               <div class="col-xs-12 col-sm-12 col-md-12" style="margin-top: 10px; margin-bottom: 10px">
                 <button type="button" name="btnGrabarPost" id="[[item._id.$oid]]" on-click="grabarPost" class="btn btn-primary">Grabar</button>
@@ -81,10 +77,9 @@
               </div>
           </div>          
 
-
           <hr><hr>
 
-          </div>
+        </div>
 
         </template>
       </div>
@@ -126,7 +121,7 @@
         obtenerPostsUsuario: function () {
           var peticion = new XMLHttpRequest();
           var urlListPosts = this.url + "?" + this.paramsUrl + "'" + this.userlogado + "'}&" + this.apiKey;
-          console.log("ROD urlListPosts: " + urlListPosts);
+          console.log("ROD: urlListPosts: " + urlListPosts);
           peticion.open("GET", urlListPosts, false);
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.send();
@@ -140,6 +135,37 @@
           this.$$("#form_con_" + e.target.id).style.display = "none";
         },
         cancelarPost: function(e) {
+          //El parametro 'e' se corresponde con el objeto que llama al metodo
+          this.$$("#form_mod_" + e.target.id).style.display = "none";
+          this.$$("#form_con_" + e.target.id).style.display = "block";
+        },
+        grabarPost: function(e) {
+          var id = this.$$("#id_" + e.target.id).value;
+          var titulo = this.$$("#titulo_" + e.target.id).value;
+          var texto = this.$$("#texto_" + e.target.id).value;
+          var labels = this.$$("#labels_" + e.target.id).value;
+          var fecha = this.$$("#fecha_" + e.target.id).value;
+          var urlfoto = this.$$("#urlfoto_" + e.target.id).value;
+          console.log("ROD: JSON: " + '{"titulo":"' + titulo + '", "texto":"' + texto + '", "nombre":"' + this.userlogado + '", "fecha": "' + fecha + '", "labels": "' + labels + '", "urlfoto": "' + urlfoto + '"}');
+
+          var peticion = new XMLHttpRequest();
+          peticion.open("PUT", this.url + "/" + id + "?" + this.apiKey, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send('{"titulo":"' + titulo + '", "texto":"' + texto + '", "nombre":"' + this.userlogado + '", "fecha": "' + fecha + '", "labels": "' + labels + '", "urlfoto": "' + urlfoto + '"}');
+          console.log("ROD: responseText: " + peticion.responseText)
+          var respuesta = JSON.parse(peticion.responseText);
+          if (peticion.status=="200")
+          {
+              console.log("ROD: Post " + id + " modificado");
+              this.obtenerPostsUsuario();              
+              alert("Post modificado correctamente");
+          }
+          else 
+          {
+              console.log("ROD: Error al grabar el post " + id);
+              alert("Error al grabar el post");
+          }         
+
           //El parametro 'e' se corresponde con el objeto que llama al metodo
           this.$$("#form_mod_" + e.target.id).style.display = "none";
           this.$$("#form_con_" + e.target.id).style.display = "block";

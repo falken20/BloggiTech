@@ -99,8 +99,8 @@
           this.postsHead += ',{"titulo":' + '"' + this.posts[2].titulo + '", "urlfoto":' +  '"' + this.posts[2].urlfoto + '" }';
           this.postsHead += ',{"titulo":' + '"' + this.posts[3].titulo + '", "urlfoto":' +  '"' + this.posts[3].urlfoto + '" } ]';
           this.postsHead = JSON.parse(this.postsHead);
-          console.log("ROD postsHead: " + this.postsHead);
-          console.log("ROD posts: " + peticion.responseText);
+          console.log("ROD: postsHead: " + this.postsHead);
+          console.log("ROD: posts: " + peticion.responseText);
         },
         obtenerPosts: function() {
           var peticion = new XMLHttpRequest();

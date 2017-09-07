@@ -82,7 +82,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.login = sessionStorage.getItem("usuario");
           this.email = sessionStorage.getItem("email");
           this.id = sessionStorage.getItem("id");
-          console.log(this.password);
+          console.log("ROD: pass: " + this.password);
         },
         //Función para encontrar en un array los datos del usuario logado
         lookJSON: function() {
@@ -112,7 +112,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
           peticion.send('{"nombre":"' + username + '", "email": "' + email + '", "password":"' + password + '"}');
-          console.log(urlupdate + ", " +  peticion.responseText);
+          console.log("ROD: urlupdate: " + urlupdate + ", " +  peticion.responseText);
           var respuesta = JSON.parse(peticion.responseText);
           var spanMensaje = this.$$("mensaje");
           if (peticion.status=="200")
@@ -136,7 +136,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           peticion.setRequestHeader("Content-Type", "application/json");
           peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
           peticion.send();
-          console.log(urldelete + ", " +  peticion.responseText);
+          console.log("ROD: urldelete: " + urldelete + ", " +  peticion.responseText);
           var respuesta = JSON.parse(peticion.responseText);
           var spanMensaje = this.$$("mensaje");
           if (peticion.status=="200")
