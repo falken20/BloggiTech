@@ -274,7 +274,7 @@ body {
 .bokeh {
     border: 0.01em solid rgba(150, 150, 150, 0.1);
     border-radius: 50%;
-    font-size: 50px;
+    font-size: 40px;
     height: 1em;
     list-style: outside none none;
     margin: 0 auto;
