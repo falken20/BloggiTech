@@ -31,6 +31,8 @@
         </div>
     </div>
 
+    <div class="container" id="noResults" style="display: none">Ningún resultado obtenido...</div>
+
     <div class="container">
       <div class="row">
         <template is="dom-repeat" items="[[posts]]">
@@ -49,6 +51,11 @@
                     | <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]
                     | <i class="glyphicon glyphicon-tag"></i> 
                     <span class="label label-info">[[item.labels]]</span>
+                    <span style="margin-left: 10px">
+                      <button type="button" id="[[item.labels]]" on-click="openGoogle" class="btn btn-primary" style="border: none; background: no-repeat;padding: 0">
+                      <img border="0" style="width: auto;height: 20px" src="images/google.png" onerror="this.src='images/no_image.jpg';"/>
+                      </button>
+                    </span>
                   </p>
                   <p>[[item.texto]]</p> 
               </div> 
@@ -116,7 +123,17 @@
           peticion.send();
           this.posts = JSON.parse(peticion.responseText);
           sessionStorage["posts"] = peticion.responseText;
-          console.log("ROD: " + peticion.responseText);
+          console.log("ROD: responseText:" + peticion.responseText);
+          if (peticion.responseText.length == 4) {
+            this.$$("#noResults").style.display = "block";
+          } else {
+            this.$$("#noResults").style.display = "none";
+          }
+        },
+        openGoogle: function(e) {
+          var filtro = e.target.id;
+          var newWindow = window.open('https://www.google.com/search?q=' + filtro, '_blank');
+          newwindow .focus();
         }
       })
     </script>
