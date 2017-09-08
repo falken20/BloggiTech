@@ -115,6 +115,7 @@
           this.posts = JSON.parse(peticion.responseText);
           sessionStorage["posts"] = peticion.responseText;
           console.log("ROD: " + peticion.responseText);
+          //Si no devuelve nadsaco mensaje de Ningún resultado encontrado
           if (peticion.responseText.length == 4) {
             this.$$("#noResults").style.display = "block";
           } else {
