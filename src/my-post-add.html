@@ -122,6 +122,12 @@
         listeners: {
           'tap': 'handleClick'
         },
+        attached: function() {
+          console.log("ROD: evento ATTACHED");
+        },
+        attributeChanged: function() {
+          console.log("ROD: evento ATTRIBUTECHANGED");
+        },
         ready: function() {
           this.obtenerFecha();
           this.userlogado = sessionStorage.getItem("usuario");
