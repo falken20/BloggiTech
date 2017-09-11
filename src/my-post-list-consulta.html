@@ -24,7 +24,11 @@
         <div class="row"> 
           <div class="col-xs-12 col-sm-12 col-md-12" align="right">      
             <input id="filtro" type="text" placeholder="Buscar por..." style="width:300px;height: 28px">
-            <button class="btn btn-default" style="margin-right: 100px" type="button" on-click="buscador"><i class="glyphicon glyphicon-search"></i></button>
+            <button class="btn btn-default" style="margin-right: 10px" type="button" on-click="buscador"><i class="glyphicon glyphicon-search"></i></button>
+            <span style="margin-right: 80px">
+              <button class="btn btn-default" type="button" on-click="buscador"><i class="glyphicon glyphicon-arrow-left"></i></button>
+              <button class="btn btn-default" type="button" on-click="buscador"><i class="glyphicon glyphicon-arrow-right"></i></button>
+            </span>
             <a href="post-list-consulta"><i class="glyphicon glyphicon-th-list" style="font-size: 20px"></i></a>
             <a href="post-listlarge-consulta"><i class="glyphicon glyphicon-th-large" style="font-size: 20px"></i></a>
           </div>
@@ -45,8 +49,8 @@
                   <img src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg';" style="width:250px;height:160px;" class="img-responsive img-box img-thumbnail"> 
               </div> 
               <div class="col-xs-12 col-sm-9 col-md-9" style="margin-top: 5px">
-                  <h4>[[item.titulo]]</h4>
-                  <p>
+                  <a href="post-detail" style="text-decoration:none;"><button type="button" id="[[item._id.$oid]]" on-click="verPost" class="btn btn-info btn-block" style="border: none;padding: 0"><h4>[[item.titulo]]</h4></button></a>
+                  <p style="margin-top: 5px">
                     <i class="glyphicon glyphicon-user"></i> [[item.nombre]]
                     | <i class="glyphicon glyphicon-calendar"></i> [[item.fecha]]
                     | <i class="glyphicon glyphicon-tag"></i> 
@@ -135,6 +139,10 @@
           var filtro = e.target.id;
           var newWindow = window.open('https://www.google.com/search?q=' + filtro, '_blank');
           newwindow .focus();
+        },
+        verPost: function(e) {
+          console.log("ROD: Post a consultar " + e.target.id);
+          sessionStorage.setItem("postId", e.target.id);
         }
       })
     </script>
