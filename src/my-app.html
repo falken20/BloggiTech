@@ -147,20 +147,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">                                
                         <ul class="nav navbar-nav navbar-right">
                             <!--<li><a href="index-blog">Home</a></li>-->
-                            <li><a href="post-add">Posts</a></li>
-                            <li><a href="user-login">Login</a></li>
-                            <!--
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                Posts<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Add post</a></li>
-                                    <li><a href="#">Remove post</a></li>
-                                    <li><a href="#">Edit post</a></li>                                
-                                </ul>
-                            </li>
-                            -->
-                            <li><a href="user-detail" style="color:red">[[login]]</a></li>
+                            <li><a href="post-list-consulta" title="Lista posts" class="glyphicon glyphicon-list"></a></li>
+                            <li><a href="post-add" title="Añadir y revisar posts" class="glyphicon glyphicon-pencil"></a></li>
+                            <li><a href="user-login" id="imgLogin" title="Login" class="glyphicon glyphicon-user"></a></li>
+                            <li><a href="user-detail" style="color:green">[[login]]</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
@@ -177,7 +167,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <my-componentemongodb name="componentemongodb"></my-componentemongodb>
 
           <my-index-blog name="index-blog"></my-index-blog>
-          <my-index-blog2 name="index-blog2"></my-index-blog2>
+          <my-index-blog2 name="index-blog2" id="indexblog2"></my-index-blog2>
           <my-post-add name="post-add"></my-post-add>
           <my-post-list name="post-list"></my-post-list>
           <my-post-list-consulta name="post-list-consulta"></my-post-list-consulta>
@@ -237,8 +227,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         //ROD: Actualizamos el usuario que esta logado
         if (sessionStorage.getItem("usuario") == null || sessionStorage.getItem("usuario") == "") {
           this.login = "";
+          this.$.imgLogin.style.color = "red";
         } else {
           this.login = "User: " + sessionStorage.getItem("usuario");
+          this.$.imgLogin.style.color = "green";
         }
 
         if (page === undefined) {
@@ -264,6 +256,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             null,
             this._showPage404.bind(this),
             true);
+        if (page == "index-blog2") {
+          console.log("ROD: Ejecuto metodo ready() de index-blog2");
+          this.$.indexblog2.ready();
+        }
       }
 
       _showPage404() {

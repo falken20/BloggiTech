@@ -35,7 +35,19 @@
 
     <div class="container" id="noResults" style="display: none">Ningún resultado obtenido...</div>
 
-    <div class="container">
+    <div class="container" id="loading" style="margin-top: 100px">
+      <div class="row">
+                <div id="loading">
+                    <ul class="bokeh">
+                        <li></li>
+                        <li></li>
+                        <li>BloggiTech</li>
+                    </ul>
+                </div>
+      </div>
+    </div>
+
+    <div class="container" id="homeConsulta" style="display:none;">
       <div class="row">
         <template is="dom-repeat" items="[[posts]]">
 
@@ -109,6 +121,9 @@
           this.indice = 0; //Comienzo en el registro 1 para ir paginando tantos registros como indique numElemPage
           this.obtenerPosts();
           this.indice += this.numElemPage;
+          console.log("ROD: Valores paginación iniciales (indice, contador, numElemPage): ", this.indice, this.contador, this.numElemPage);
+          this.$$("#loading").style.display = "none";
+          this.$$("#homeConsulta").style.display = "block";
         },
         obtenerPosts: function () {
           var peticion = new XMLHttpRequest();
