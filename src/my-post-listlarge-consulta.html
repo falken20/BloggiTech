@@ -23,6 +23,10 @@
           <div class="col-xs-12 col-sm-12 col-md-12" align="right">      
             <input id="filtro" type="text" placeholder="Buscar por..." style="width:300px;height: 28px">
             <button class="btn btn-default" style="margin-right: 100px" type="button" on-click="buscador"><i class="glyphicon glyphicon-search"></i></button>
+            <span style="margin-right: 80px">
+              <button class="btn btn-default" type="button" on-click="prevPage" id="prevPage"><i class="glyphicon glyphicon-arrow-left"></i></button>
+              <button class="btn btn-default" type="button" on-click="nextPage" id="nextPage"><i class="glyphicon glyphicon-arrow-right"></i></button>
+            </span>
             <a href="post-list-consulta"><i class="glyphicon glyphicon-th-list" style="font-size: 20px"></i></a>
             <a href="post-listlarge-consulta"><i class="glyphicon glyphicon-th-large" style="font-size: 20px"></i></a>
           </div>
@@ -86,16 +90,25 @@
           posts: {
             type: Array,
             notify: true, //Automáticamente refresca cuando cambia algo...(se supone)
-          }
+          },
+          contador: { type: Number, value: 0 },
+          indice: { type: Number, value: 0 },
+          numElemPage: {type: Number, value: 5}
         },
         listeners: {
         },
         ready: function() {
+          this.obtenerCountConsulta();
+          this.indice = 0; //Comienzo en el registro 1 para ir paginando tantos registros como indique numElemPage
           this.obtenerPosts();
+          this.indice += this.numElemPage;
         },
         obtenerPosts: function () {
           var peticion = new XMLHttpRequest();
-          var urlListPosts = this.url + "?" + this.paramsUrl + "&" + this.apiKey;
+          
+          var filtroPaginacion = "&sk=" + this.indice + "&l=" + this.numElemPage;
+
+          var urlListPosts = this.url + "?" + this.paramsUrl + filtroPaginacion + "&" + this.apiKey;
           console.log("ROD: urlListPosts: " + urlListPosts);
           peticion.open("GET", urlListPosts, false);
           peticion.setRequestHeader("Content-Type", "application/json");
@@ -106,20 +119,31 @@
         },
         buscador: function() {
           var filtro = this.$$("#filtro").value;
-          var peticion = new XMLHttpRequest();
-          var urlListPosts = this.url + "?" + this.params1 +  filtro + this.params2 + "&" + this.apiKey;
-          console.log("ROD: urlListPosts: " + urlListPosts);
-          peticion.open("GET", urlListPosts, false);
-          peticion.setRequestHeader("Content-Type", "application/json");
-          peticion.send();
-          this.posts = JSON.parse(peticion.responseText);
-          sessionStorage["posts"] = peticion.responseText;
-          console.log("ROD: " + peticion.responseText);
-          //Si no devuelve nadsaco mensaje de Ningún resultado encontrado
-          if (peticion.responseText.length == 4) {
-            this.$$("#noResults").style.display = "block";
-          } else {
+          console.log("ROD: Filtro a aplicar: " + filtro);
+          //Si busca dejando en blanco habilito la paginación
+          if (filtro == "") {
             this.$$("#noResults").style.display = "none";
+            this.$$("#prevPage").disabled = false;
+            this.$$("#nextPage").disabled = false;
+            this.ready();
+          } else {
+            this.$$("#prevPage").disabled = true;
+            this.$$("#nextPage").disabled = true;           
+            var peticion = new XMLHttpRequest();
+            var urlListPosts = this.url + "?" + this.params1 + filtro + this.params2 + "&" + this.apiKey;
+            console.log("ROD: urlListPosts: " + urlListPosts);
+            peticion.open("GET", urlListPosts, false);
+            peticion.setRequestHeader("Content-Type", "application/json");
+            peticion.send();
+            this.posts = JSON.parse(peticion.responseText);
+            sessionStorage["posts"] = peticion.responseText;
+            console.log("ROD: responseText:" + peticion.responseText);
+            //Si no devuelve nadsaco mensaje de Ningún resultado encontrado
+            if (peticion.responseText.length == 4) {
+              this.$$("#noResults").style.display = "block";
+            } else {
+              this.$$("#noResults").style.display = "none";
+            }
           }
         },
         openGoogle: function(e) {
@@ -130,6 +154,32 @@
         verPost: function(e) {
           console.log("ROD: Post a consultar " + e.target.id);
           sessionStorage.setItem("postId", e.target.id);
+        },
+        obtenerCountConsulta: function() {
+          var peticion = new XMLHttpRequest();
+          var urlListPosts = this.url + "?c=true&" + this.apiKey;
+          console.log("ROD: Obtener contador de registros: " + urlListPosts);
+          peticion.open("GET", urlListPosts, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send();
+          console.log("ROD: " + peticion.responseText);
+          this.contador = peticion.responseText;
+        },
+        prevPage: function() {
+          console.log("ROD: Valores paginación prevPage ANTES (indice, contador, numElemPage): ", this.indice, this.contador, this.numElemPage);
+          if (this.indice > 0) {
+            this.indice -= this.numElemPage;
+            this.obtenerPosts();
+          }
+          console.log("ROD: Valores paginación prevPage DESPUES (indice, contador, numElemPage): ", this.indice, this.contador, this.numElemPage);
+        },
+        nextPage: function() {
+          console.log("ROD: Valores paginación nextPage ANTES (indice, contador, numElemPage): ", this.indice, this.contador, this.numElemPage);
+          if ( (this.indice + this.numElemPage) < this.contador) {
+            this.indice += this.numElemPage;
+            this.obtenerPosts();
+          }
+          console.log("ROD: Valores paginación nextPage DESPUES (indice, contador, numElemPage): ", this.indice, this.contador, this.numElemPage);
         }
       })
     </script>
