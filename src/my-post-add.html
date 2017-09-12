@@ -168,6 +168,7 @@
           if (peticion.status=="200")
           {
               console.log("ROD: Post añadido");
+              this.initProperties();
               this.$$("#mensaje").style.display = "block";
               this.$$("#mensaje").value = "Post añadido correctamente";
           }
@@ -224,7 +225,15 @@
           else { this.fechaHoy += mes + "/" }
           if (f.getDate() < 10) { this.fechaHoy += "0" + f.getDate() }
           else { this.fechaHoy += f.getDate() }
-        }        
+        },   
+        initProperties: function() {
+          console.log("ROD: Inicializo formulario");
+          document.getElementsByName("titulo")[0].value = "";
+          document.getElementsByName("texto")[0].value = "";
+          document.getElementsByName("fecha")[0].value = "";
+          document.getElementsByName("labels")[0].value = "";
+          document.getElementsByName("files")[0].value  = "";
+        }
       })
     </script>
 </dom-module>

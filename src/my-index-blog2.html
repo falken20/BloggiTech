@@ -75,12 +75,6 @@
                   </a>
                 </div>
                 </template>
-
-                <div class="col-page col-sm-4 col-md-3">
-                <a class="todas-las-publicaciones-home twitter-timeline" data-width="220" data-height="300" data-theme="light" href="https://twitter.com/_BloggiTech_">Tweets by _BloggiTech_</a>
-                <!--<a href="user-add" class="todas-las-publicaciones-home">
-                      <span>Date de alta en nuestro Blog</span></a>-->
-                </div>
                 
                 <div class="col-page col-sm-4 col-md-3">
                 <a href="user-login" class="todas-las-publicaciones-home">
@@ -90,6 +84,13 @@
                 <div class="col-page col-sm-4 col-md-3">
                 <a href="post-list-consulta" class="todas-las-publicaciones-home">
                       <span>Ver más posts...</span></a>
+                </div>
+
+                <script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <div class="col-page col-sm-4 col-md-3">
+                <a class="todas-las-publicaciones-home twitter-timeline" data-width="220" data-height="300" data-theme="light" href="https://twitter.com/_BloggiTech_">Tweets by _BloggiTech_</a>
+                <!--<a href="user-add" class="todas-las-publicaciones-home">
+                      <span>Date de alta en nuestro Blog</span></a>-->
                 </div>
 
               </div>
@@ -122,6 +123,7 @@
           }
         },
         listeners: {
+          'tap': 'ready'
         },
         ready: function() {
           var peticion = new XMLHttpRequest();

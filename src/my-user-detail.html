@@ -37,8 +37,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             <input id="mensaje" type="text" class="form-control" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;text-align: center;display: none">      
                           </div>
                           <button type="button" on-click="updateUser" class="btn btn-primary" style="width: auto;min-width: 100px">Grabar</button>
-                          <button type="button" on-click="deleteUser" class="btn btn-danger" style="width: auto;min-width: 100px">Dar Baja</button>
-                          <button type="button" on-click="closeSession" class="btn btn-warning" style="width: auto;min-width: 100px">Cerrar Sesión</button>
+                          <a href="user-login" id="user-login" style="text-decoration:none;"><button type="button" on-click="deleteUser" class="btn btn-danger" style="width: auto;min-width: 100px">Dar Baja</button></a>
+                          <a href="user-login" id="user-login" style="text-decoration:none;"><button type="button" on-click="closeSession" class="btn btn-warning" style="width: auto;min-width: 100px">Cerrar Sesión</button></a>
                         </div>
                     </form>
                 </div>
@@ -119,13 +119,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           {
               console.log("ROD: User " + username + " added");
               sessionStorage.setItem("usuario", username);
-              this.$$("#mensaje").style.display = "block";
-              this.$$("#mensaje").value = "Usuario modificado correctamente";
+              alert("Usuario modificado correctamente");
+              //this.$$("#mensaje").style.display = "block";
+              //this.$$("#mensaje").value = "Usuario modificado correctamente";
           }
           else 
           {
-              this.$$("#mensaje").style.display = "block";
-              this.$$("#mensaje").value = "No se pudo modificar el usuario";
+              alert("No se pudo modificar el usuario");
+              //this.$$("#mensaje").style.display = "block";
+              //this.$$("#mensaje").value = "No se pudo modificar el usuario";
           }
         },
         deleteUser: function() {
@@ -146,12 +148,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               sessionStorage.removeItem("email");
               console.log("ROD: User " + this.login + " removed");
               this.initProperties();
-              this.$$("#mensaje").style.display = "block";
-              this.$$("#mensaje").value = "Usuario borrado correctamente";
+              alert("Usuario borrado correctamente");
+              //this.$$("#mensaje").style.display = "block";
+              //this.$$("#mensaje").value = "Usuario borrado correctamente";
           }
           else 
           {
-              spanMensaje.innerText = "No se pudo borrar el usuario";
+              alert("No se pudo borrar el usuario");
           }          
         },
         closeSession: function() {
@@ -160,8 +163,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           sessionStorage.removeItem("email");
           console.log("ROD: Session closed for user " + this.login);
           this.initProperties();
-          this.$$("#mensaje").style.display = "block";
-          this.$$("#mensaje").value = "Sesión cerrada correctamente";
+          alert("Sesión cerrada correctamente");
+          //this.$$("#mensaje").style.display = "block";
+          //this.$$("#mensaje").value = "Sesión cerrada correctamente";
         }
       })
     </script>

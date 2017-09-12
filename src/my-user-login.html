@@ -37,7 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       <form action="" method="">
                           <input name="usernameInput" type="text" placeholder="username">
                           <input name="passwordInput" type="password" placeholder="password">
-                          <button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button>
+                          <a href="" id="enlace" style="text-decoration:none;"><button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button></a>
                           <p><small>¿No tienes cuenta? <a href="user-add">Date de alta!</a></small></p>
                           <input id="mensaje" type="text" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;text-align: center;display: none">      
                      </form>
@@ -80,20 +80,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             var respuesta = JSON.parse(peticion.responseText);
             if (peticion.status=="200" && respuesta.data.count > 0)
             {
+              //this.$$("#mensaje").style.display = "block";
+              //this.$$("#mensaje").value = "Login Correcto";
               console.log("ROD: User " + username + " logged");
               sessionStorage.setItem("usuario", username);
               this.login = "User: " + username;
               document.getElementsByName("usernameInput")[0].value = "";
               document.getElementsByName("passwordInput")[0].value = "";
-              this.$$("#mensaje").style.display = "block";
-              this.$$("#mensaje").value = "Login Correcto";
+              //Si el login es correcto hago un delay para que se vea el mensaje y redirijo a la pagina principal el A HREF
+              alert("Login correcto");
+              //this.sleep(3000);
+              this.$$("#enlace").href = "index-blog2";
+              //location.href = "index-blog2";
             }
             else 
             {
-              this.$$("#mensaje").style.display = "block";
-              this.$$("#mensaje").value = "Login Incorrecto";
+              alert("Login incorrecto");
+              //this.$$("#mensaje").style.display = "block";
+              //this.$$("#mensaje").value = "Login Incorrecto";
+              //Si el login es incorrecto redirijo de nuevo al login para que no falle el link de A HREF
+              this.$$("#enlace").href = "user-login";
             }
           }
+        },
+        sleep: function(delay) {
+          var start = new Date().getTime();
+          while (new Date().getTime() < start + delay);          
         }
       })
     </script>
