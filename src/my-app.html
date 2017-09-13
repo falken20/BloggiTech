@@ -197,6 +197,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _routePageChanged(page) {
+        console.log("ROD: _routePageChanged: " + this.page);
         // Polymer 2.0 will call with `undefined` on initialization.
         // Ignore until we are properly called with a string.
 
@@ -224,7 +225,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(page) {
-        console.log("ROD: objeto dom: " + this.page);
+        console.log("ROD: _pageChanged: " + this.page);
         // Load page import on demand. Show 404 page if fails
         var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
         Polymer.importHref(
@@ -234,7 +235,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             true);
         if (page == "index-blog2") { console.log("ROD: Ejecuto ready() de " + page);        this.$.indexblog2.ready(); }
         if (page == "post-add") { console.log("ROD: Ejecuto ready() de " + page);           this.$.postadd.ready(); }
-        if (page == "post-detail") { console.log("ROD: Ejecuto ready() de " + page);        this.$.posetdetail.ready(); }
+        if (page == "post-detail") { console.log("ROD: Ejecuto ready() de " + page);        this.$.postdetail.ready(); }
         if (page == "post-list-consulta") { console.log("ROD: Ejecuto ready() de " + page); this.$.postlistconsulta.ready(); }
         if (page == "post-list") { console.log("ROD: Ejecuto ready() de " + page);          this.$.postlist.ready(); }
         if (page == "post-listlarge-consulta") { console.log("ROD: Ejecuto ready() de " + page); this.$.postlistlargeconsulta.ready(); }

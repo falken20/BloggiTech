@@ -135,11 +135,11 @@
         ready: function() {
           this.postId = sessionStorage.getItem("postId");
           this.userlogado = sessionStorage.getItem("usuario");
-          this.obtenerFecha();
-          if (this.userlogado == null) { this.userlogado = "Anonimo" };
           console.log("ROD: Id post a visualizar " + this.postId);          
           this.obtenerPost();
           this.obtenerComments();
+          this.obtenerFecha();
+          if (this.userlogado == null) { this.userlogado = "Anonimo" };
           this.$$("#loading").style.display = "none";
           this.$$("#detalle").style.display = "block";
         },

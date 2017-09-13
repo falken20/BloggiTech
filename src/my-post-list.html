@@ -43,7 +43,8 @@
             </div> 
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12" style="margin-top: 10px; margin-bottom: 10px">
-              <button type="button" name="btnModificarPost" id="[[item._id.$oid]]" on-click="modificarPost" class="btn btn-primary">Modificar</button>
+              <button type="button" name="btnModificarPost" id="[[item._id.$oid]]" on-click="modificarPost" class="btn btn-primary" style="width: auto;min-width: 100px">Modificar</button>
+              <button type="button" name="btnBorrarPost" id="[[item._id.$oid]]" on-click="borrarPost" class="btn btn-primary" style="width: auto;min-width: 100px">Borrar</button>
             </div>
           </div>
 
@@ -169,6 +170,26 @@
           //El parametro 'e' se corresponde con el objeto que llama al metodo
           this.$$("#form_mod_" + e.target.id).style.display = "none";
           this.$$("#form_con_" + e.target.id).style.display = "block";
+        },
+        borrarPost: function(e) {
+          console.log("ROD: Procedemos a borrar post: " + e.target.id);
+          var peticion = new XMLHttpRequest();
+          peticion.open("DELETE", this.url + "/" + e.target.id + "?" + this.apiKey, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.send();
+          console.log("ROD: responseText: " + peticion.responseText)
+          var respuesta = JSON.parse(peticion.responseText);
+          if (peticion.status=="200")
+          {
+              console.log("ROD: Post " + e.target.id + " eliminado");
+              this.obtenerPostsUsuario();              
+              alert("Post borrado correctamente");
+          }
+          else 
+          {
+              console.log("ROD: Error al borrar el post " + e.target.id);
+              alert("Error al borrar el post");
+          }                 
         }
       })
     </script>

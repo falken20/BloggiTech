@@ -143,11 +143,14 @@
           //Si busca dejando en blanco habilito la paginación
           if (filtro == "") {
             console.log("ROD: Entro por filtro vacio");
+            this.obtenerCountConsulta();
+            this.indice = 0; //Comienzo en el registro 1 para ir paginando tantos registros como indique numElemPage
+            this.obtenerPosts();
+            this.indice += this.numElemPage;
             this.$$("#noResults").style.display = "none";
-            this.$$("#prevPage").disabled = false;
-            this.$$("#nextPage").disabled = false;
+            this.$$("#prevPage1").disabled = false;
+            this.$$("#nextPage1").disabled = false;
             this.$$("#noResults").style.display = "none";
-            this.ready();
           } else {
             this.$$("#prevPage").disabled = true;
             this.$$("#nextPage").disabled = true;           
