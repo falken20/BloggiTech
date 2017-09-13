@@ -114,8 +114,14 @@
           this.indice = 0; //Comienzo en el registro 1 para ir paginando tantos registros como indique numElemPage
           this.obtenerPosts();
           this.indice += this.numElemPage;
+          console.log("ROD: Valores paginación iniciales (indice, contador, numElemPage): ", this.indice, this.contador, this.numElemPage);
+
+          this.$.filtro.value = "";
+          this.$$("#prevPage").disabled = false;
+          this.$$("#nextPage").disabled = false;
           this.$$("#loading").style.display = "none";
           this.$$("#homeConsulta").style.display = "block";
+          this.$$("#noResults").style.display = "none";
         },
         obtenerPosts: function () {
           var peticion = new XMLHttpRequest();
@@ -136,9 +142,11 @@
           console.log("ROD: Filtro a aplicar: " + filtro);
           //Si busca dejando en blanco habilito la paginación
           if (filtro == "") {
+            console.log("ROD: Entro por filtro vacio");
             this.$$("#noResults").style.display = "none";
             this.$$("#prevPage").disabled = false;
             this.$$("#nextPage").disabled = false;
+            this.$$("#noResults").style.display = "none";
             this.ready();
           } else {
             this.$$("#prevPage").disabled = true;
@@ -161,8 +169,8 @@
           }
         },
         openGoogle: function(e) {
-          var filtro = e.target.id;
-          var newWindow = window.open('https://www.google.com/search?q=' + filtro, '_blank');
+          var filtroGoogle= e.target.id;
+          var newWindow = window.open('https://www.google.com/search?q=' + filtroGoogle, '_blank');
           newwindow .focus();
         },
         verPost: function(e) {

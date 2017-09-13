@@ -21,11 +21,11 @@
     <div class="container">
         <div class="row"> 
           <div class="col-xs-12 col-sm-12 col-md-12" align="right">      
-            <input id="filtro" type="text" placeholder="Buscar por..." style="width:300px;height: 28px">
+            <input id="filtro1" type="text" placeholder="Buscar por..." style="width:300px;height: 28px">
             <button class="btn btn-default" style="margin-right: 10px" type="button" on-click="buscador"><i class="glyphicon glyphicon-search"></i></button>
             <span style="margin-right: 80px">
-              <button class="btn btn-default" type="button" on-click="prevPage" id="prevPage"><i class="glyphicon glyphicon-arrow-left"></i></button>
-              <button class="btn btn-default" type="button" on-click="nextPage" id="nextPage"><i class="glyphicon glyphicon-arrow-right"></i></button>
+              <button class="btn btn-default" type="button" on-click="prevPage" id="prevPage1"><i class="glyphicon glyphicon-arrow-left"></i></button>
+              <button class="btn btn-default" type="button" on-click="nextPage" id="nextPage1"><i class="glyphicon glyphicon-arrow-right"></i></button>
             </span>
             <a href="post-list-consulta"><i class="glyphicon glyphicon-th-list" style="font-size: 20px"></i></a>
             <a href="post-listlarge-consulta"><i class="glyphicon glyphicon-th-large" style="font-size: 20px"></i></a>
@@ -122,8 +122,13 @@
           this.obtenerPosts();
           this.indice += this.numElemPage;
           console.log("ROD: Valores paginación iniciales (indice, contador, numElemPage): ", this.indice, this.contador, this.numElemPage);
+
+          this.$.filtro1.value = "";
+          this.$$("#prevPage1").disabled = false;
+          this.$$("#nextPage1").disabled = false;
           this.$$("#loading").style.display = "none";
           this.$$("#homeConsulta").style.display = "block";
+          this.$$("#noResults").style.display = "none";
         },
         obtenerPosts: function () {
           var peticion = new XMLHttpRequest();
@@ -140,17 +145,19 @@
           console.log("ROD: " + peticion.responseText);
         },
         buscador: function() {
-          var filtro = this.$$("#filtro").value;
-          console.log("ROD: Filtro a aplicar: " + this.$$("#filtro").value);
+          var filtro = this.$$("#filtro1").value;
+          console.log("ROD: Filtro a aplicar: " + this.$$("#filtro1").value);
           //Si busca dejando en blanco habilito la paginación
           if (filtro == "") {
+            console.log("ROD: Entro por filtro vacio");
             this.$$("#noResults").style.display = "none";
-            this.$$("#prevPage").disabled = false;
-            this.$$("#nextPage").disabled = false;
+            this.$$("#prevPage1").disabled = false;
+            this.$$("#nextPage1").disabled = false;
+            this.$$("#noResults").style.display = "none";
             this.ready();
           } else {
-            this.$$("#prevPage").disabled = true;
-            this.$$("#nextPage").disabled = true;           
+            this.$$("#prevPage1").disabled = true;
+            this.$$("#nextPage1").disabled = true;           
             var peticion = new XMLHttpRequest();
             var urlListPosts = this.url + "?" + this.params1 +  filtro + this.params2 + "&" + this.apiKey;
             console.log("ROD: urlListPosts: " + urlListPosts);
@@ -169,8 +176,8 @@
           }
         },
         openGoogle: function(e) {
-          var filtro = e.target.id;
-          var newWindow = window.open('https://www.google.com/search?q=' + filtro, '_blank');
+          var filtroGoogle = e.target.id;
+          var newWindow = window.open('https://www.google.com/search?q=' + filtroGoogle, '_blank');
           newwindow .focus();
         },
         verPost: function(e) {

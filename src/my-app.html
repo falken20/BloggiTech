@@ -30,7 +30,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="my-user-add.html">
 <link rel="lazy-import" href="my-user-login.html">
 <link rel="lazy-import" href="my-user-login-aux.html">
-<link rel="lazy-import" href="my-user-remove.html">
 <link rel="lazy-import" href="my-user-detail.html">
 <link rel="lazy-import" href="my-post-add.html">
 <link rel="lazy-import" href="my-post-list.html">
@@ -39,15 +38,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="my-post-listlarge-consulta.html">
 
 <link rel="lazy-import" href="my-view404.html">
-
-
-<!-- ROD: Bootstrap 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
--->
 
 <link href="src/blog-template.css" rel="stylesheet" type="text/css"/>
 <link href="src/login.css" rel="stylesheet" type="text/css"/>
@@ -107,19 +97,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
-<!-- ROD: Menú lateral
-      <app-drawer id="drawer" slot="drawer">
-        <app-toolbar>BloggiTech Menu</app-toolbar>
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="user-add" href="user-add">New user</a>
-          <a name="user-remove" href="user-remove">Remove user</a>
-          <a name="view3" href="view3">View Three</a>
-          <a name="richi-micomponente" href="richi-micomponente">Ejemplo</a>
-          <a name="componentemongodb" href="componentemongodb">Acceso mongoDB</a>
-          <a name="index-blog" href="index-blog">Blog Index</a>
-        </iron-selector>       
-      </app-drawer>
--->
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
@@ -168,17 +145,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <my-index-blog name="index-blog"></my-index-blog>
           <my-index-blog2 name="index-blog2" id="indexblog2"></my-index-blog2>
-          <my-post-add name="post-add"></my-post-add>
-          <my-post-list name="post-list"></my-post-list>
-          <my-post-list-consulta name="post-list-consulta"></my-post-list-consulta>
-          <my-post-listlarge name="post-listlarge"></my-post-listlarge>
-          <my-post-listlarge-consulta name="post-listlarge-consulta"></my-post-listlarge-consulta>
-          <my-post-detail name="post-detail"></my-post-detail>
+          <my-post-add name="post-add" id="postadd"></my-post-add>
+          <my-post-list name="post-list" id="postlist"></my-post-list>
+          <my-post-list-consulta name="post-list-consulta" id="postlistconsulta"></my-post-list-consulta>
+          <my-post-listlarge name="post-listlarge" id="postlistlarge"></my-post-listlarge>
+          <my-post-listlarge-consulta name="post-listlarge-consulta" id="postlistlargeconsulta"></my-post-listlarge-consulta>
+          <my-post-detail name="post-detail" id="postdetail"></my-post-detail>
           <my-user-add name="user-add"></my-user-add>
           <my-user-login name="user-login"></my-user-login>
           <my-user-login name="user-login-aux"></my-user-login>
-          <my-user-remove name="user-remove"></my-user-remove>
-          <my-user-detail name="user-detail"></my-user-detail>
+          <my-user-detail name="user-detail" id="userdetail"></my-user-detail>
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </app-header-layout>
@@ -256,10 +232,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             null,
             this._showPage404.bind(this),
             true);
-        if (page == "index-blog2") {
-          console.log("ROD: Ejecuto metodo ready() de index-blog2");
-          this.$.indexblog2.ready();
-        }
+        if (page == "index-blog2") { console.log("ROD: Ejecuto ready() de " + page);        this.$.indexblog2.ready(); }
+        if (page == "post-add") { console.log("ROD: Ejecuto ready() de " + page);           this.$.postadd.ready(); }
+        if (page == "post-detail") { console.log("ROD: Ejecuto ready() de " + page);        this.$.posetdetail.ready(); }
+        if (page == "post-list-consulta") { console.log("ROD: Ejecuto ready() de " + page); this.$.postlistconsulta.ready(); }
+        if (page == "post-list") { console.log("ROD: Ejecuto ready() de " + page);          this.$.postlist.ready(); }
+        if (page == "post-listlarge-consulta") { console.log("ROD: Ejecuto ready() de " + page); this.$.postlistlargeconsulta.ready(); }
+        if (page == "post-listlarge") { console.log("ROD: Ejecuto ready() de " + page);     this.$.postlistlarge.ready(); }
+        if (page == "user-detail") { console.log("ROD: Ejecuto ready() de " + page);        this.$.userdetail.ready(); }
       }
 
       _showPage404() {

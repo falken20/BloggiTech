@@ -169,14 +169,16 @@
           {
               console.log("ROD: Post añadido");
               this.initProperties();
-              this.$$("#mensaje").style.display = "block";
-              this.$$("#mensaje").value = "Post añadido correctamente";
+              alert("Post añadido correctamente");
+              //this.$$("#mensaje").style.display = "block";
+              //this.$$("#mensaje").value = "Post añadido correctamente";
           }
           else 
           {
               console.log("ROD: Error al grabar el post");
-              this.$$("#mensaje").style.display = "block";
-              this.$$("#mensaje").value = "Error al grabar el Post";
+              alert("Error al grabar el Post");
+              //this.$$("#mensaje").style.display = "block";
+              //this.$$("#mensaje").value = "Error al grabar el Post";
           }         
         },
         handleClick: function() {

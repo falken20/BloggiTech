@@ -5,7 +5,6 @@
 
 <link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 
-
 <dom-module id="my-index-blog2">
   <template>
     <style>
@@ -85,12 +84,11 @@
                 <a href="post-list-consulta" class="todas-las-publicaciones-home">
                       <span>Ver más posts...</span></a>
                 </div>
-
-                <script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <div class="col-page col-sm-4 col-md-3">
-                <a class="todas-las-publicaciones-home twitter-timeline" data-width="220" data-height="300" data-theme="light" href="https://twitter.com/_BloggiTech_">Tweets by _BloggiTech_</a>
-                <!--<a href="user-add" class="todas-las-publicaciones-home">
-                      <span>Date de alta en nuestro Blog</span></a>-->
+                
+                <div class="col-page col-sm-4 col-md-3" align="center">
+                  <img src="https://www.tiempo.com/wimages/fotoee2dbf8a5523a9e4d48e5a41296a18b2.png">
+                <!-- <iframe src="http://www.elpais.com" frameborder=0 scrolling=no style="height: 300px;max-width: 100%;" allowfullscreen></iframe>
+                <a class="todas-las-publicaciones-home twitter-timeline" data-width="220" data-height="300" data-theme="light" href="https://twitter.com/_BloggiTech_">Tweets by _BloggiTech_</a> -->
                 </div>
 
               </div>
@@ -123,7 +121,6 @@
           }
         },
         listeners: {
-          'tap': 'ready'
         },
         ready: function() {
           var peticion = new XMLHttpRequest();
