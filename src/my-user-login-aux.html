@@ -13,6 +13,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="my-user-login-aux">
   <template>
+
+    <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
+    <script src="bootstrap/js/bootstrap.min.js"></script>   
+
     <style>
       :host {  /* Para referenciar el estilo de mi componente */
         display: inline-block;
@@ -35,8 +41,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <div class="avatar"><img src="images/avatar.png" width="95px" height="95px"></div>
                   <div class="form-box">
                       <form action="" method="">
-                          <input name="usernameInputAux" type="text" placeholder="username">
-                          <input name="passwordInputAux" type="password" placeholder="password">
+                          <input name="usernameInputAux" id="usernameInputAux" type="text" placeholder="username">
+                          <input name="passwordInputAux" id="passwordInputAux" type="password" placeholder="password">
                           <a href="" id="enlace" style="text-decoration:none;"><button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button></a>
                           <p><small>¿No tienes cuenta? <a href="user-add">Date de alta!</a></small></p>
                           <input id="mensaje" type="text" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;text-align: center;display: none">      
@@ -64,8 +70,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         listeners: {
         },
         loginUser: function() {
-          var password = document.getElementsByName("passwordInputAux")[0].value;
-          var username = document.getElementsByName("usernameInputAux")[0].value;
+          var password = this.$.passwordInputAux.value;
+          var username = this.$.usernameInputAux.value;
+          //var password = document.getElementsByName("passwordInputAux")[0].value;
+          //var username = document.getElementsByName("usernameInputAux")[0].value;
           console.log("ROD: username:" + username);
           console.log("ROD: password:" + password);
           if (password == "" || username == "") {

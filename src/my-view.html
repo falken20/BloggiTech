@@ -1,0 +1,43 @@
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<dom-module id="my-view">
+  <template>
+    <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
+    <script src="bootstrap/js/bootstrap.min.js"></script>   
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+       <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <div class="card">
+      <div class="circle">1</div>
+      <h1>View One</h1>
+      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
+      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+    </div>
+
+
+                <div class="col-page col-sm-4 col-md-3" align="center">
+                <a class="todas-las-publicaciones-home twitter-timeline" data-width="220" data-height="300" data-theme="light" href="https://twitter.com/_BloggiTech_">Tweets by _BloggiTech_</a> 
+                </div>
+
+  </template>
+
+  <script>
+    class MyView extends Polymer.Element {
+      static get is() { return 'my-view'; }
+    }
+
+    window.customElements.define(MyView.is, MyView);
+  </script>
+</dom-module>

@@ -35,6 +35,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="my-post-listlarge-consulta.html">
 
 <link rel="lazy-import" href="my-view404.html">
+<link rel="lazy-import" href="my-view.html">
 
 <!--
 <link href="src/blog-template.css" rel="stylesheet" type="text/css"/>
@@ -47,6 +48,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="my-app">
   <template>
+
+    <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
+    <script src="bootstrap/js/bootstrap.min.js"></script>   
+
     <style>
       :host {
         --app-primary-color: white;
@@ -155,6 +162,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <my-user-login name="user-login-aux"></my-user-login>
           <my-user-detail name="user-detail" id="userdetail"></my-user-detail>
           <my-view404 name="view404"></my-view404>
+          <my-view name="view"></my-view>
         </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
@@ -193,6 +201,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.rootPattern = (new URL(this.rootPath)).pathname;
         console.log("ROD: " + window.location.href);
         console.log("ROD: " + window.location.pathname);
+        if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) 
+        { alert('Navegador Opera: Esta web esta optimizada para ser visualizada en Firefox'); }
+        else if(navigator.userAgent.indexOf("Chrome") != -1 )
+        { alert('Navegador Chrome: Esta web esta optimizada para ser visualizada en Firefox'); }
+        else if(navigator.userAgent.indexOf("Safari") != -1)
+        { alert('Navegador Safari: Esta web esta optimizada para ser visualizada en Firefox'); }
+        else if(navigator.userAgent.indexOf("Firefox") != -1 ) 
+        { console.log("ROD: Browser Firefox!!!!")}
+        else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+        { alert('Navegador IE: Esta web esta optimizada para ser visualizada en Firefox'); }  
+        else { console.log('Navegador desconocido'); }
       }
 
       _routePageChanged(page) {
@@ -232,6 +251,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             null,
             this._showPage404.bind(this),
             true);
+        
         if (page == "index-blog2") { console.log("ROD: Ejecuto ready() de " + page);        this.$.indexblog2.ready(); }
         if (page == "post-add") { console.log("ROD: Ejecuto ready() de " + page);           this.$.postadd.ready(); }
         if (page == "post-detail") { console.log("ROD: Ejecuto ready() de " + page);        this.$.postdetail.ready(); }
