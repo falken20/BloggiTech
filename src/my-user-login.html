@@ -18,6 +18,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
     <script src="bootstrap/js/bootstrap.min.js"></script>   
+    <link href="src/login.css" rel="stylesheet" type="text/css"/>
+    <link href="src/sticky.css" rel="stylesheet" type="text/css"/>
 
     <style>
       :host {  /* Para referenciar el estilo de mi componente */
@@ -26,29 +28,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: -moz-available;
         align-items: center;
       }
+      .container {
+        background-color: white;
+        width: -moz-available;
+        position: absolute;
+        width: 100%;
+        margin: 0 auto;
+        left: 0;
+        right: 0;      
+      }
     </style>
 
-    <div class="col-sm-6 col-md-6">
-      <div class="sticky">
-          <h1>Welcome to BloggiTech!</h1>
-          <p><small>Only Tech</small></p>
-      </div>
-    </div>
-    
-    <div class="col-sm-6 col-md-6">
-        <div class="login-container">
-                  <div id="output"></div>
-                  <div class="avatar"><img src="images/avatar.png" width="95px" height="95px"></div>
-                  <div class="form-box">
-                      <form action="" method="">
-                          <input name="usernameInput" id="usernameInput" type="text" placeholder="username">
-                          <input name="passwordInput" id="passwordInput" type="password" placeholder="password">
-                          <a href="" id="enlace" style="text-decoration:none;"><button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button></a>
-                          <p><small>¿No tienes cuenta? <a href="user-add">Date de alta!</a></small></p>
-                          <input id="mensaje" type="text" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;text-align: center;display: none">      
-                     </form>
-                  </div>
-        </div>              
+    <div class="container">
+        <div class="col-sm-6 col-md-6">
+          <div class="sticky">
+              <h1>Welcome to BloggiTech!</h1>
+              <p><small>Only Tech</small></p>
+          </div>
+        </div>
+        
+        <div class="col-sm-6 col-md-6">
+            <div class="login-container">
+                      <div id="output"></div>
+                      <div class="avatar"><img src="images/avatar.png" width="95px" height="95px"></div>
+                      <div class="form-box">
+                          <form action="" method="">
+                              <input name="usernameInput" id="usernameInput" type="text" placeholder="username">
+                              <input name="passwordInput" id="passwordInput" type="password" placeholder="password">
+                              <a href="" id="enlace" style="text-decoration:none;"><button class="btn btn-info btn-block login" type="button" name="btnLoginUser" on-click="loginUser">Login</button></a>
+                              <p><small>¿No tienes cuenta? <a href="user-add">Date de alta!</a></small></p>
+                              <input id="mensaje" type="text" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;text-align: center;display: none">      
+                         </form>
+                      </div>
+            </div>              
+        </div>
     </div>
   </template>
 
@@ -72,6 +85,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         loginUser: function() {
           var password = this.$.passwordInput.value;
           var username = this.$.usernameInput.value;
+          // La orden getElementsByName no funciona en Chrome
           //var password = document.getElementsByName("passwordInput")[0].value;
           //var username = document.getElementsByName("usernameInput")[0].value;
           console.log("ROD: username:" + username);
@@ -93,8 +107,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               console.log("ROD: User " + username + " logged");
               sessionStorage.setItem("usuario", username);
               this.login = "User: " + username;
-              document.getElementsByName("usernameInput")[0].value = "";
-              document.getElementsByName("passwordInput")[0].value = "";
+              this.$.usernameInput.value = "";
+              this.$.passwordInput.value = "";
               //Si el login es correcto hago un delay para que se vea el mensaje y redirijo a la pagina principal el A HREF
               alert("Login correcto");
               //this.sleep(3000);

@@ -12,6 +12,10 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
     <script src="bootstrap/js/bootstrap.min.js"></script>   
+    <link href="src/blog-template.css" rel="stylesheet" type="text/css"/>
+    <link href="src/login.css" rel="stylesheet" type="text/css"/>
+    <link href="src/styles.css" rel="stylesheet" type="text/css"/>
+    <script src="src/utils.js"></script>    
 
     <style>
       :host {  /* Para referenciar el estilo de mi componente */
@@ -135,10 +139,27 @@
           console.log("ROD: evento ATTRIBUTECHANGED");
         },
         ready: function() {
+          console.log("ROD: Muestro pantalla añadir post");
+          this.$$("#formpost").style.display = "block";
+          this.$$("#formlogin").style.display = "none";
           this.obtenerFecha();
           this.userlogado = sessionStorage.getItem("usuario");
           console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
           if (this.userlogado == null) {
+            console.log("ROD: Oculto pantalla añadir post para mostrar login");
+            this.$$("#formpost").style.display = "none";
+            this.$$("#formlogin").style.display = "block";
+          }
+        },
+        initMethod: function() {
+          console.log("ROD: Muestro pantalla añadir post");
+          this.$$("#formpost").style.display = "block";
+          this.$$("#formlogin").style.display = "none";
+          this.obtenerFecha();
+          this.userlogado = sessionStorage.getItem("usuario");
+          console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
+          if (this.userlogado == null) {
+            console.log("ROD: Oculto pantalla añadir post para mostrar login");
             this.$$("#formpost").style.display = "none";
             this.$$("#formlogin").style.display = "block";
           }
@@ -149,14 +170,14 @@
               document.getElementsByName("image")[0].src = e.target.result;
           };
           // read the image file as a data URL.
-          console.log("ROD: File.value: " + document.getElementsByName("files")[0].value);
           reader.readAsDataURL(document.getElementsByName("files")[0].files[0]);
+          console.log("ROD: File.value: " + document.getElementsByName("files")[0].value);
         },
         grabarPosts: function() {
-          var titulo = document.getElementsByName("titulo")[0].value;
-          var texto = document.getElementsByName("texto")[0].value;
-          var fecha = document.getElementsByName("fecha")[0].value;
-          var labels = document.getElementsByName("labels")[0].value;
+          var titulo = this.$.titulo.value;
+          var texto = this.$.texto.value;
+          var fecha = this.$.fecha.value;
+          var labels = this.$.labels.value;
           var urlfoto = this.aws_url_foto + document.getElementsByName("files")[0].files[0].name;
 
           console.log("ROD: JSON: " + '{"titulo":"' + titulo + '", "texto":"' + texto + '", "nombre":"' + this.userlogado + '", "fecha": "' + fecha + '", "labels": "' + labels + '", "urlfoto": "' + urlfoto + '"}');
@@ -236,10 +257,10 @@
         },   
         initProperties: function() {
           console.log("ROD: Inicializo formulario");
-          document.getElementsByName("titulo")[0].value = "";
-          document.getElementsByName("texto")[0].value = "";
-          document.getElementsByName("fecha")[0].value = "";
-          document.getElementsByName("labels")[0].value = "";
+          this.$.titulo.value = "";
+          this.$.texto.value = "";
+          this.$.fecha.value = "";
+          this.$.labels.value = "";
           document.getElementsByName("files")[0].value  = "";
           document.getElementsByName("image")[0].src = "";
         }

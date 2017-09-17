@@ -149,6 +149,18 @@
           this.$$("#loading").style.display = "none";
           this.$$("#detalle").style.display = "block";
         },
+        initMethod: function() {
+          this.postId = sessionStorage.getItem("postId");
+          this.userlogado = sessionStorage.getItem("usuario");
+          this.$.comentario.value = "";
+          console.log("ROD: Id post a visualizar " + this.postId);          
+          this.obtenerPost();
+          this.obtenerComments();
+          this.obtenerFecha();
+          if (this.userlogado == null) { this.userlogado = "Anonimo" };
+          this.$$("#loading").style.display = "none";
+          this.$$("#detalle").style.display = "block";          
+        },
         obtenerPost: function () {
           var peticion = new XMLHttpRequest();
           var urlListPosts = this.urlposts + "?" + this.paramsurlposts + "'" + this.postId + "'}}&" + this.apiKey;
@@ -171,13 +183,14 @@
           this.comments = JSON.parse(peticion.responseText);
         },
         addComentario: function() {
+          console.log("ROD: Hago visible formulario para añadir comentario");
           this.$$("#formComentario").style.display = "block";          
         },
         cancelarComment: function() {
           this.$$("#formComentario").style.display = "none";
         },
         grabarComment: function() {
-          var comentario = document.getElementsByName("comentario")[0].value;
+          var comentario = this.$.comentario.value;
           console.log("ROD: JSON: " + '{"idpost":"' + this.postId + '", "texto":"' + comentario + '", "nombre":"' + this.userlogado + '", "fecha": "' + this.fechaHoy + '"}');
           var peticion = new XMLHttpRequest();
           peticion.open("POST", this.urlcomments + "?" + this.apiKey, false);

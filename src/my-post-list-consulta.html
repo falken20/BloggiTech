@@ -136,6 +136,20 @@
           this.$$("#homeConsulta").style.display = "block";
           this.$$("#noResults").style.display = "none";
         },
+        initMethod: function() {
+          this.obtenerCountConsulta();
+          this.indice = 0; //Comienzo en el registro 1 para ir paginando tantos registros como indique numElemPage
+          this.obtenerPosts();
+          this.indice += this.numElemPage;
+          console.log("ROD: Valores paginación iniciales (indice, contador, numElemPage): ", this.indice, this.contador, this.numElemPage);
+
+          this.$.filtro1.value = "";
+          this.$$("#prevPage1").disabled = false;
+          this.$$("#nextPage1").disabled = false;
+          this.$$("#loading").style.display = "none";
+          this.$$("#homeConsulta").style.display = "block";
+          this.$$("#noResults").style.display = "none";
+        },
         obtenerPosts: function () {
           var peticion = new XMLHttpRequest();
           

@@ -13,6 +13,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
     <script src="bootstrap/js/bootstrap.min.js"></script>   
 
+    <link href="src/blog-template.css" rel="stylesheet" type="text/css"/>
+    <link href="src/styles.css" rel="stylesheet" type="text/css"/>
+    <script src="src/utils.js"></script> 
+
     <style>
       :host {  /* Para referenciar el estilo de mi componente */
         display: inline-block;
@@ -23,10 +27,11 @@
       .container {
         background-color: white;
         width: -moz-available;
-        position:absolute;
+        position: absolute;
+        width: 100%;
         margin: 0 auto;
         left: 0;
-        right: 0;
+        right: 0;      
       }
     </style>
 
@@ -50,7 +55,7 @@
                 <div class="col-page col-sm-8 col-md-6">
                   <a href="post-detail" class="black fondo-publicacion-home">
                     <div class="img-publicacion-principal-home">
-                      <img class="" src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg'" style="max-width: 900px;max-width: 500px">
+                      <img class="" src="[[item.urlfoto]]" onerror="this.src='images/no_image.jpg'">
                     </div>
                     <div class="contenido-publicacion-principal-home">
                       <h3>[[item.titulo]]</h3>

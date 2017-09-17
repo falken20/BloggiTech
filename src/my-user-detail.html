@@ -18,6 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
     <script src="bootstrap/js/bootstrap.min.js"></script>   
+    <link href="src/login.css" rel="stylesheet" type="text/css"/>
 
     <style>
       :host {  /* Para referenciar el estilo de mi componente */
@@ -34,10 +35,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <div><span></span></div>
                 <div class="form-box">
                     <form action="" method="">
-                        Id: <input name="idInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[id]]" disabled="disabled" >
-                        UserName: <input name="usernameInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[login]]" disabled="disabled">
-                        eMail: <input name="emailInput" type="text" placeholder="email" maxlength="30" data-validation="email" style="margin-top:1px" value="[[email]]">
-                        Password: <input name="passwordInput" type="password" placeholder="password" maxlength="20" style="margin-top:5px;size:60" value="[[password]]">                        
+                        Id: <input name="idInput" id="idInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[id]]" disabled="disabled" >
+                        UserName: <input name="usernameInput" id="usernameInput" type="text" maxlength="20" size="100" style="margin-top:1px" placeholder="[[login]]" disabled="disabled">
+                        eMail: <input name="emailInput" id="emailInput" type="text" placeholder="email" maxlength="30" data-validation="email" style="margin-top:1px" value="[[email]]">
+                        Password: <input name="passwordInput" id="passwordInput" type="password" placeholder="password" maxlength="20" style="margin-top:5px;size:60" value="[[password]]">                        
                         <div style="margin-top: 10px; margin-bottom: 10px;" align="center">
                           <div class="form-group">
                             <input id="mensaje" type="text" class="form-control" style="border:0;background-color:white;font-size:large;font-weight:bold;color:red;text-transform:uppercase;text-align: center;display: none">      
@@ -90,6 +91,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.id = sessionStorage.getItem("id");
           console.log("ROD: pass: " + this.password);
         },
+        initMethod: function() {
+          //Obtengo todos los usuarios para luego buscar del que tengo que mostrar los datos
+          var peticion = new XMLHttpRequest();
+          peticion.open("GET", this.url, false);
+          peticion.setRequestHeader("Content-Type", "application/json");
+          peticion.setRequestHeader("Access-Control-Allow-Origin", "*");
+          peticion.send();
+          console.log("ROD: arrayJSON: " + peticion.responseText);
+          //De la respuesta cogo sólo el valor data que es el array de todos los usuarios
+          this.arrayJSON = (JSON.parse(peticion.responseText)).data;
+          this.lookJSON();
+          console.log("ROD: usuario encontrado: " + sessionStorage.getItem("usuario") + ", " + sessionStorage.getItem("id") + ", " + sessionStorage.getItem("email"));
+          this.login = sessionStorage.getItem("usuario");
+          this.email = sessionStorage.getItem("email");
+          this.id = sessionStorage.getItem("id");
+          console.log("ROD: pass: " + this.password);
+        },
         //Función para encontrar en un array los datos del usuario logado
         lookJSON: function() {
           console.log("ROD: lookJSON(): Entro a recorrer JSON de longitud " + this.arrayJSON.length);
@@ -109,8 +127,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         updateUser: function() {
           var username = this.login;
-          var email = document.getElementsByName("emailInput")[0].value;
-          var password = document.getElementsByName("passwordInput")[0].value;
+          var email = this.$.emailInput.value;
+          var password = this.$.passwordInput.value;
           console.log("ROD: Updating user -> Id: " + this.id + ", Name: " + username + ", Email: " + email + ", Password: " + password);
           var peticion = new XMLHttpRequest();
           var urlupdate = this.url + "/" + this.id;

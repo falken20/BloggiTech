@@ -112,6 +112,11 @@
           console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
           this.obtenerPostsUsuario();
         },
+        initMethod: function() {
+          this.userlogado = sessionStorage.getItem("usuario");
+          console.log("ROD: Obtengo el usuario logado " + this.userlogado);          
+          this.obtenerPostsUsuario();
+        },
         obtenerPostsUsuario: function () {
           var peticion = new XMLHttpRequest();
           var urlListPosts = this.url + "?" + this.paramsUrl + "'" + this.userlogado + "'}&" + this.apiKey;
